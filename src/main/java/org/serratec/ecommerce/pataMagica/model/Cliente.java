@@ -1,11 +1,16 @@
 package org.serratec.ecommerce.pataMagica.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,9 +24,25 @@ public class Cliente {
 	private String cpf;
 	private String telefone;
 	private LocalDate data_nascimento;
-	//private String enderecos_id; colocar relacionamento
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Pedido> pedidos;
+
 	
-	
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+	public void setPedidos(List<Pedido> pedidos) {
+		pedidos.forEach(p -> p.setCliente(this));
+		this.pedidos = pedidos;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 	public Long getId() {
 		return id;
 	}

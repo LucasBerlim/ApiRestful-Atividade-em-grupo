@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,8 +21,16 @@ public class Pedido {
 	private boolean status;
 	private Double valor_total;
 	//private int cliente_id; colocar relacionamento
+	@ManyToOne
+	private Cliente cliente;
 	
-	
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 	public Long getId() {
 		return id;
 	}
