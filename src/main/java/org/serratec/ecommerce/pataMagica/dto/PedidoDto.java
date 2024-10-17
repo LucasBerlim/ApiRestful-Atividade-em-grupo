@@ -1,6 +1,7 @@
 package org.serratec.ecommerce.pataMagica.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 
@@ -12,7 +13,8 @@ public record PedidoDto(
 		boolean status,
 		Double valorTotal
 		// tentando implementar cliente e lista de itens
-		//ClienteDto cliente
+		//ClienteDto cliente,
+		//List<ItemPedidoDto> itensPedido
 		) {
 	
 	public Pedido toEntity() {
@@ -23,13 +25,23 @@ public record PedidoDto(
 		pedido.setDataEnvio(this.dataEnvio);
 		pedido.setStatus(this.status);
 		pedido.setValorTotal(this.valorTotal);
-		//pedido.setCliente(this.cliente.toEntity());  
+		//pedido.setCliente(this.cliente.toEntity());
+		//pedido.getCliente().setId(this.clienteId);
+		//pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return pedido;
 	}
 	
 	public static PedidoDto toDto(Pedido pedido) {
-        return new PedidoDto(pedido.getId(), pedido.getDataPedido(), pedido.getDataEntrega(),
-        		pedido.getDataEnvio(), pedido.isStatus(), pedido.getValorTotal());
-	//ClienteDto.toDto(pedido.getCliente())
-	} 
+        ClienteDto clienteDto = (pedido.getCliente() != null) ? ClienteDto.toDto(pedido.getCliente()) : null;
+		return new PedidoDto(
+		        pedido.getId(),
+		        pedido.getDataPedido(),
+		        pedido.getDataEntrega(),
+		        pedido.getDataEnvio(),
+		        pedido.isStatus(),
+		        pedido.getValorTotal()
+		        //clienteDto,
+		        //pedido.getItensPedido().stream().map(ip -> ItemPedidoDto.toDto(ip)).toList()
+		    );
+	}
 }

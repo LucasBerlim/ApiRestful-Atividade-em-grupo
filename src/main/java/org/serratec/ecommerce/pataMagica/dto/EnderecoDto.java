@@ -1,5 +1,6 @@
 package org.serratec.ecommerce.pataMagica.dto;
 
+import org.serratec.ecommerce.pataMagica.model.Cliente;
 import org.serratec.ecommerce.pataMagica.model.Endereco;
 
 public record EnderecoDto(
@@ -11,6 +12,7 @@ public record EnderecoDto(
 		String numero,
 		String complemento,
 		String uf
+		//Cliente cliente
 		) {
 
 	public Endereco toEntity() {
@@ -23,6 +25,7 @@ public record EnderecoDto(
 		endereco.setNumero(this.numero);
 		endereco.setComplemento(this.complemento);
 		endereco.setUf(this.uf);
+		//endereco.setCliente(this.cliente);
 		return endereco;
 	}
 	
@@ -30,5 +33,5 @@ public record EnderecoDto(
         return new EnderecoDto(endereco.getId(), endereco.getCep(), endereco.getRua(),  
         		endereco.getBairro(), endereco.getCidade(), endereco.getNumero(), 
         		endereco.getComplemento(), endereco.getUf());
-	}
+	} //, endereco.getCliente()
 }

@@ -3,6 +3,9 @@ package org.serratec.ecommerce.pataMagica.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,6 +29,8 @@ public class Cliente {
 	private LocalDate dataNascimento;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
+	@JsonManagedReference
+	//@JsonIgnoreProperties
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Pedido> pedidos;
 

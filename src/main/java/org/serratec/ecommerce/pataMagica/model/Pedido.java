@@ -3,6 +3,9 @@ package org.serratec.ecommerce.pataMagica.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,8 +27,10 @@ public class Pedido {
 	private LocalDate dataEnvio;
 	private boolean status;
 	private Double valorTotal;
+	@JsonBackReference
 	@ManyToOne
 	private Cliente cliente;
+	@JsonManagedReference
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemPedido> itensPedido;
 	

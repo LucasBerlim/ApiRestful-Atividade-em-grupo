@@ -1,5 +1,7 @@
 package org.serratec.ecommerce.pataMagica.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ public class Endereco {
 	private String numero;
 	private String complemento;
 	private String uf;
+	@JsonIgnoreProperties
 	@OneToOne(mappedBy = "endereco")
 	private Cliente cliente;
 	
