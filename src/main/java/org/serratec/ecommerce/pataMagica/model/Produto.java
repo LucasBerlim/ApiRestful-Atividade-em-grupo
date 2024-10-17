@@ -1,9 +1,15 @@
 package org.serratec.ecommerce.pataMagica.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,13 +20,29 @@ public class Produto {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String qtd_estoque;
-	private String data_cadastro;
-	private Double valor_unitario;
-	private String imagem; 
-	//private String categoria_id; criar relacionamento
+	private String qtdEstoque;
+	private String dataCadastro;
+	private Double valorUnitario;
+	private String imagem;
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<ItemPedido> itensPedido;
+	@ManyToOne
+	private Categoria categoria;
 	
 	
+	public List<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+	public void setItensPedido(List<ItemPedido> itensPedido) {
+		itensPedido.forEach(ip -> ip.setProduto(this));
+		this.itensPedido = itensPedido;
+	}
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -33,23 +55,23 @@ public class Produto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getQtd_estoque() {
-		return qtd_estoque;
+	public String getQtdEstoque() {
+		return qtdEstoque;
 	}
-	public void setQtd_estoque(String qtd_estoque) {
-		this.qtd_estoque = qtd_estoque;
+	public void setQtdEstoque(String qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
 	}
-	public String getData_cadastro() {
-		return data_cadastro;
+	public String getDataCadastro() {
+		return dataCadastro;
 	}
-	public void setData_cadastro(String data_cadastro) {
-		this.data_cadastro = data_cadastro;
+	public void setDataCadastro(String dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
-	public Double getValor_unitario() {
-		return valor_unitario;
+	public Double getValorUnitario() {
+		return valorUnitario;
 	}
-	public void setValor_unitario(Double valor_unitario) {
-		this.valor_unitario = valor_unitario;
+	public void setValorUnitario(Double valorUnitario) {
+		this.valorUnitario = valorUnitario;
 	}
 	public String getImagem() {
 		return imagem;

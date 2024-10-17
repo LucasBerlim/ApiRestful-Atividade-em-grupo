@@ -20,10 +20,10 @@ public class Cliente {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String email;
-	private String nome_completo;
+	private String nomeCompleto;
 	private String cpf;
 	private String telefone;
-	private LocalDate data_nascimento;
+	private LocalDate dataNascimento;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -55,12 +55,6 @@ public class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getNome_completo() {
-		return nome_completo;
-	}
-	public void setNome_completo(String nome_completo) {
-		this.nome_completo = nome_completo;
-	}
 	public String getCpf() {
 		return cpf;
 	}
@@ -73,10 +67,16 @@ public class Cliente {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public LocalDate getData_nascimento() {
-		return data_nascimento;
+	public String getNomeCompleto() {
+		return nomeCompleto;
 	}
-	public void setData_nascimento(LocalDate data_nascimento) {
-		this.data_nascimento = data_nascimento;
-	}	
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
+	}
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
 }

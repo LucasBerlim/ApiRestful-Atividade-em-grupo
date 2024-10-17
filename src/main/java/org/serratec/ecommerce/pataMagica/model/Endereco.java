@@ -20,9 +20,9 @@ public class Endereco {
 	private String numero;
 	private String complemento;
 	private String uf;
-	
 	@OneToOne
 	private Cliente cliente;
+	
 	
 	public Long getId() {
 		return id;

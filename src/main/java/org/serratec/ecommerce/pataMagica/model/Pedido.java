@@ -1,12 +1,16 @@
 package org.serratec.ecommerce.pataMagica.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,16 +19,24 @@ public class Pedido {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
-	private LocalDate data_pedido;
-	private LocalDate data_entrega;
-	private LocalDate data_envio;
+	private LocalDate dataPedido;
+	private LocalDate dataEntrega;
+	private LocalDate dataEnvio;
 	private boolean status;
-	private Double valor_total;
-	//private int cliente_id; colocar relacionamento
+	private Double valorTotal;
 	@ManyToOne
 	private Cliente cliente;
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<ItemPedido> itensPedido;
 	
-
+	
+	public List<ItemPedido> getItensPedido() {
+		return itensPedido;
+	}
+	public void setItensPedido(List<ItemPedido> itensPedido) {
+		itensPedido.forEach(ip -> ip.setPedido(this));
+		this.itensPedido = itensPedido;
+	}
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -37,35 +49,34 @@ public class Pedido {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public LocalDate getData_pedido() {
-		return data_pedido;
-	}
-	public void setData_pedido(LocalDate data_pedido) {
-		this.data_pedido = data_pedido;
-	}
-	public LocalDate getData_entrega() {
-		return data_entrega;
-	}
-	public void setData_entrega(LocalDate data_entrega) {
-		this.data_entrega = data_entrega;
-	}
-	public LocalDate getData_envio() {
-		return data_envio;
-	}
-	public void setData_envio(LocalDate data_envio) {
-		this.data_envio = data_envio;
-	}
 	public boolean isStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public Double getValor_total() {
-		return valor_total;
+	public LocalDate getDataPedido() {
+		return dataPedido;
 	}
-	public void setValor_total(Double valor_total) {
-		this.valor_total = valor_total;
+	public void setDataPedido(LocalDate dataPedido) {
+		this.dataPedido = dataPedido;
 	}
-	
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+	public LocalDate getDataEnvio() {
+		return dataEnvio;
+	}
+	public void setDataEnvio(LocalDate dataEnvio) {
+		this.dataEnvio = dataEnvio;
+	}
+	public Double getValorTotal() {
+		return valorTotal;
+	}
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
 }
