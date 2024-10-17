@@ -20,10 +20,16 @@ public class Endereco {
 	private String numero;
 	private String complemento;
 	private String uf;
-	@OneToOne
+	@OneToOne(mappedBy = "endereco")
 	private Cliente cliente;
 	
 	
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 	public Long getId() {
 		return id;
 	}

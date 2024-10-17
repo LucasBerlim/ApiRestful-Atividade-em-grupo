@@ -1,0 +1,1 @@
+ALTER TABLE enderecos RENAME COLUMN up TO uf;
