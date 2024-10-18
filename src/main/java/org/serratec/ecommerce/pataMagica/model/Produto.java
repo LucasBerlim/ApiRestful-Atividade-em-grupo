@@ -1,5 +1,6 @@
 package org.serratec.ecommerce.pataMagica.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -23,15 +24,16 @@ public class Produto {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	private String qtdEstoque;
-	private String dataCadastro;
+	private int qtdEstoque;
+	private LocalDate dataCadastro;
 	private Double valorUnitario;
 	private String imagem;
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonManagedReference
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemPedido> itensPedido;
 	@JsonManagedReference
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Categoria categoria;
 	
 	
@@ -60,16 +62,16 @@ public class Produto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getQtdEstoque() {
+	public int getQtdEstoque() {
 		return qtdEstoque;
 	}
-	public void setQtdEstoque(String qtdEstoque) {
+	public void setQtdEstoque(int qtdEstoque) {
 		this.qtdEstoque = qtdEstoque;
 	}
-	public String getDataCadastro() {
+	public LocalDate getDataCadastro() {
 		return dataCadastro;
 	}
-	public void setDataCadastro(String dataCadastro) {
+	public void setDataCadastro(LocalDate dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 	public Double getValorUnitario() {

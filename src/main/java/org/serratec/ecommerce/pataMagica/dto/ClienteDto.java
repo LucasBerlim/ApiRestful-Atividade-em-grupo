@@ -1,10 +1,8 @@
 package org.serratec.ecommerce.pataMagica.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.serratec.ecommerce.pataMagica.model.Cliente;
-import org.serratec.ecommerce.pataMagica.model.Endereco;
 
 public record ClienteDto(
 		Long id,

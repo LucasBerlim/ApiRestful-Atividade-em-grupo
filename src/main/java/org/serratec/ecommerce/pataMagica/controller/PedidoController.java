@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
+import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,9 +42,15 @@ public class PedidoController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public PedidoDto cadastrarPedido(@RequestBody PedidoDto dto) {
+	public PedidoDtoCadastroPedido cadastrarPedido(@RequestBody PedidoDtoCadastroPedido dto) {
 		return service.salvarPedido(dto);
 	}
+	
+	/*@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public PedidoDto cadastrarPedido(@RequestBody PedidoDto dto) {
+		return service.salvarPedido(dto);
+	}*/
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletaPedido(@PathVariable Long id){

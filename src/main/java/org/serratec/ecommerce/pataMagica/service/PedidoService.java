@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
+import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PedidoService {
@@ -26,10 +28,15 @@ public class PedidoService {
 		return Optional.of(PedidoDto.toDto(repository.findById(id).get()));
 	}
 	
-	public PedidoDto salvarPedido(PedidoDto dto) {
+	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
+		Pedido pedidoEntity = repository.save(dto.toEntity());
+		return PedidoDtoCadastroPedido.toDto(pedidoEntity);
+	}
+	
+	/*public PedidoDto salvarPedido(PedidoDto dto) {
 		Pedido pedidoEntity = repository.save(dto.toEntity());
 		return PedidoDto.toDto(pedidoEntity);
-	}
+	}*/
 	
 	public boolean apagarPedido(Long id) {
 		if(!repository.existsById(id)) {

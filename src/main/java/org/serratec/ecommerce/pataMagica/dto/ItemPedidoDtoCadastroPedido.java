@@ -3,15 +3,14 @@ package org.serratec.ecommerce.pataMagica.dto;
 import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
-public record ItemPedidoDto(
+public record ItemPedidoDtoCadastroPedido(
 		Long id,
 		int quantidade,
 		Double precoVenda,
 		Double percentualDesconto,
 		Double valorBruto,
 		Double valorLiquido,
-		Produto produto
-		//ProdutoDto produto
+		Long produtoId
 		) {
 	
 	public ItemPedido toEntity() {
@@ -22,17 +21,17 @@ public record ItemPedidoDto(
 		itemPedido.setPercentualDesconto(this.percentualDesconto);
 		itemPedido.setValorBruto(this.valorBruto);
 		itemPedido.setValorLiquido(this.valorLiquido);
-		itemPedido.setProduto(this.produto);
-		//itemPedido.setProduto(this.produto.toEntity());
+		Produto produto = new Produto();
+		itemPedido.setProduto(produto);
+		itemPedido.getProduto().setId(this.produtoId);
 		return itemPedido;
 	}
 	
-	public static ItemPedidoDto toDto(ItemPedido itemPedido) {
-        return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), 
+	public static ItemPedidoDtoCadastroPedido toDto(ItemPedido itemPedido) {
+        return new ItemPedidoDtoCadastroPedido(itemPedido.getId(), itemPedido.getQuantidade(), 
         		itemPedido.getPrecoVenda(), itemPedido.getPercentualDesconto(), 
         		itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
-        		itemPedido.getProduto()
-        		//ProdutoDto.toDto(itemPedido.getProduto())
+        		itemPedido.getProduto().getId()
         		);
 	}
 }

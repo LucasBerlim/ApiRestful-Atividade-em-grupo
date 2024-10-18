@@ -1,7 +1,5 @@
 package org.serratec.ecommerce.pataMagica.dto;
 
-import java.util.List;
-
 import org.serratec.ecommerce.pataMagica.model.Categoria;
 
 public record CategoriaDto(

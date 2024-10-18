@@ -23,7 +23,7 @@ public class Categoria {
 	private String nome;
 	private String descricao;
 	@JsonBackReference
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
 	private List<Produto> produtos;
 	
 	
