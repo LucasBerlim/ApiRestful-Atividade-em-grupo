@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.ClienteDto;
+import org.serratec.ecommerce.pataMagica.model.Cliente;
+import org.serratec.ecommerce.pataMagica.model.DadosCep;
+import org.serratec.ecommerce.pataMagica.model.Endereco;
 import org.serratec.ecommerce.pataMagica.service.ClienteService;
+import org.serratec.ecommerce.pataMagica.service.ConsumoApiCep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/clientes")
@@ -42,7 +48,22 @@ public class ClienteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ClienteDto cadastrarCliente(@RequestBody ClienteDto dto) {
-		return service.salvarCliente(dto);
+		
+		String json = ConsumoApiCep.obterDados(dto.toEntity().getEndereco().getCep());
+		DadosCep dadosCep = new Gson().fromJson(json, DadosCep.class);
+		Endereco endereco = new Endereco();
+		endereco.setCep(dto.toEntity().getEndereco().getCep());
+		endereco.setRua(dadosCep.rua());
+		endereco.setBairro(dadosCep.bairro());
+		endereco.setCidade(dadosCep.cidade());
+		endereco.setUf(dadosCep.uf());
+		endereco.setNumero(dto.toEntity().getEndereco().getNumero());
+		endereco.setComplemento(dto.toEntity().getEndereco().getComplemento());
+		
+		Cliente cliente = dto.toEntity();
+		cliente.setEndereco(endereco);
+		
+		return service.salvarCliente(ClienteDto.toDto(cliente));
 	}
 
 	@DeleteMapping("/{id}")
