@@ -47,7 +47,7 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ClienteDto cadastrarCliente(@RequestBody ClienteDto dto) {
+public ClienteDto cadastrarCliente(@RequestBody ClienteDto dto) {
 		
 		String json = ConsumoApiCep.obterDados(dto.toEntity().getEndereco().getCep());
 		DadosCep dadosCep = new Gson().fromJson(json, DadosCep.class);

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
+import org.serratec.ecommerce.pataMagica.model.ItemPedido;
+import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

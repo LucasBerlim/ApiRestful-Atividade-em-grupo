@@ -3,8 +3,12 @@ package org.serratec.ecommerce.pataMagica.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.serratec.ecommerce.pataMagica.dto.ItemPedidoDto;
+import org.serratec.ecommerce.pataMagica.dto.ItemPedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
+import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
+import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,8 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoRepository repository;
+	@Autowired
+	private ProdutoService produtoService;
 	
 	public List<PedidoDto> obterTodos(){
 		return repository.findAll().stream().map(p -> PedidoDto.toDto(p)).toList();
@@ -29,8 +35,19 @@ public class PedidoService {
 	}
 	
 	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
+		// talvez implementar a lógica da conta aqui, através do método calcularPedido:
+		
+		
+		//Pedido pedido = new Pedido();
+		Pedido pedido = dto.toEntity();
+		//pedido.setItensPedido(dto.toEntity().getItensPedido());
+		//pedido.setItensPedido(dto.itensPedido().stream().map(ip -> ip.toEntity()).toList());
+		
 		Pedido pedidoEntity = repository.save(dto.toEntity());
 		return PedidoDtoCadastroPedido.toDto(pedidoEntity);
+		
+		//Pedido pedidoEntity = repository.save(dto.toEntity());
+		//return PedidoDtoCadastroPedido.toDto(pedidoEntity);
 	}
 	
 	/*public PedidoDto salvarPedido(PedidoDto dto) {
@@ -55,4 +72,6 @@ public class PedidoService {
 		repository.save(pedidoEntity);
 		return Optional.of(PedidoDto.toDto(pedidoEntity));
 	}
+	
+	
 }
