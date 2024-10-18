@@ -11,10 +11,8 @@ public record PedidoDto(
 		LocalDate dataEntrega,
 		LocalDate dataEnvio,
 		boolean status,
-		Double valorTotal
-		// tentando implementar cliente e lista de itens
-		//ClienteDto cliente,
-		//List<ItemPedidoDto> itensPedido
+		Double valorTotal,
+		List<ItemPedidoDto> itensPedido
 		) {
 	
 	public Pedido toEntity() {
@@ -25,23 +23,19 @@ public record PedidoDto(
 		pedido.setDataEnvio(this.dataEnvio);
 		pedido.setStatus(this.status);
 		pedido.setValorTotal(this.valorTotal);
-		//pedido.setCliente(this.cliente.toEntity());
-		//pedido.getCliente().setId(this.clienteId);
-		//pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
+		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return pedido;
 	}
 	
 	public static PedidoDto toDto(Pedido pedido) {
-        ClienteDto clienteDto = (pedido.getCliente() != null) ? ClienteDto.toDto(pedido.getCliente()) : null;
 		return new PedidoDto(
 		        pedido.getId(),
 		        pedido.getDataPedido(),
 		        pedido.getDataEntrega(),
 		        pedido.getDataEnvio(),
 		        pedido.isStatus(),
-		        pedido.getValorTotal()
-		        //clienteDto,
-		        //pedido.getItensPedido().stream().map(ip -> ItemPedidoDto.toDto(ip)).toList()
+		        pedido.getValorTotal(),
+		        pedido.getItensPedido().stream().map(ip -> ItemPedidoDto.toDto(ip)).toList()
 		    );
 	}
 }

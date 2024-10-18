@@ -11,8 +11,8 @@ public record ItemPedidoDto(
 		Double percentualDesconto,
 		Double valorBruto,
 		Double valorLiquido,
-		Produto produto,
-		Pedido pedido
+		Produto produto
+		//Pedido pedido
 		) {
 	
 	public ItemPedido toEntity() {
@@ -24,7 +24,7 @@ public record ItemPedidoDto(
 		itemPedido.setValorBruto(this.valorBruto);
 		itemPedido.setValorLiquido(this.valorLiquido);
 		itemPedido.setProduto(this.produto);
-		itemPedido.setPedido(this.pedido);
+		//itemPedido.setPedido(this.pedido);
 		return itemPedido;
 	}
 	
@@ -32,6 +32,6 @@ public record ItemPedidoDto(
         return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), 
         		itemPedido.getPrecoVenda(), itemPedido.getPercentualDesconto(), 
         		itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
-        		itemPedido.getProduto(), itemPedido.getPedido());
-	}
+        		itemPedido.getProduto());
+	} //, itemPedido.getPedido()
 }

@@ -27,10 +27,10 @@ public class Produto {
 	private String dataCadastro;
 	private Double valorUnitario;
 	private String imagem;
-	@JsonManagedReference
+	@JsonBackReference
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemPedido> itensPedido;
-	@JsonBackReference
+	@JsonManagedReference
 	@ManyToOne
 	private Categoria categoria;
 	

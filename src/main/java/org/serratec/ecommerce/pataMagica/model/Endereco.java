@@ -1,5 +1,6 @@
 package org.serratec.ecommerce.pataMagica.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ public class Endereco {
 	private String numero;
 	private String complemento;
 	private String uf;
-	@JsonIgnoreProperties
+	@JsonBackReference
 	@OneToOne(mappedBy = "endereco")
 	private Cliente cliente;
 	

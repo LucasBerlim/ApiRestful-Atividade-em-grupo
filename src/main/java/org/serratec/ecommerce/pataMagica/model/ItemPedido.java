@@ -1,6 +1,7 @@
 package org.serratec.ecommerce.pataMagica.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +21,6 @@ public class ItemPedido {
 	private Double percentualDesconto;
 	private Double valorBruto;
 	private Double valorLiquido;
-	@JsonBackReference
 	@ManyToOne
 	private Produto produto;
 	@JsonBackReference

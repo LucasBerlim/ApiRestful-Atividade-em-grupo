@@ -27,6 +27,7 @@ public class Cliente {
 	private String cpf;
 	private String telefone;
 	private LocalDate dataNascimento;
+	@JsonIgnoreProperties
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 	@JsonManagedReference

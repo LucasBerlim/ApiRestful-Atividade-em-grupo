@@ -13,11 +13,9 @@ public record ClienteDto(
 		String cpf,
 		String telefone,
 		LocalDate dataNascimento,
-		Endereco endereco
-		//List<PedidoDto> pedidos
+		EnderecoDto endereco
 		) {
 
-	
 	public Cliente toEntity() {
 		Cliente cliente = new Cliente();
 		cliente.setId(this.id);
@@ -26,14 +24,13 @@ public record ClienteDto(
 		cliente.setCpf(this.cpf);
 		cliente.setTelefone(this.telefone);
 		cliente.setDataNascimento(this.dataNascimento);
-		cliente.setEndereco(this.endereco);
-		//cliente.setPedidos(this.pedidos.stream().map(p -> p.toEntity()).toList());
+		cliente.setEndereco(this.endereco.toEntity());
 		return cliente;
 	}
 	
 	public static ClienteDto toDto(Cliente cliente) {
         return new ClienteDto(cliente.getId(), cliente.getEmail(), cliente.getNomeCompleto(), 
         		cliente.getCpf(), cliente.getTelefone(), cliente.getDataNascimento(), 
-        		cliente.getEndereco());
-	} //, cliente.getPedidos().stream().map(p -> PedidoDto.toDto(p)).toList()
+        		EnderecoDto.toDto(cliente.getEndereco()));
+	} 
 }

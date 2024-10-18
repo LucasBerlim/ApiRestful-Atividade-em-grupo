@@ -2,6 +2,7 @@ package org.serratec.ecommerce.pataMagica.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -21,7 +22,7 @@ public class Categoria {
 	private Long id;
 	private String nome;
 	private String descricao;
-	@JsonManagedReference
+	@JsonBackReference
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Produto> produtos;
 	

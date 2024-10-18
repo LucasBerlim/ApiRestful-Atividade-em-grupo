@@ -7,8 +7,8 @@ import org.serratec.ecommerce.pataMagica.model.Categoria;
 public record CategoriaDto(
 		Long id,
 		String nome,
-		String descricao,
-		List<ProdutoDto> produtos
+		String descricao
+		//List<ProdutoDto> produtos
 		) {
 	
 	public Categoria toEntity() {
@@ -16,12 +16,12 @@ public record CategoriaDto(
 		categoria.setId(this.id);
 		categoria.setNome(this.nome);
 		categoria.setDescricao(this.descricao);
-		categoria.setProdutos(this.produtos.stream().map(p -> p.toEntity()).toList());
+		//categoria.setProdutos(this.produtos.stream().map(p -> p.toEntity()).toList());
 		return categoria;
 	}
 	
 	public static CategoriaDto toDto(Categoria categoria) {
         return new CategoriaDto(categoria.getId(), categoria.getNome(), 
-        		categoria.getDescricao(), categoria.getProdutos().stream().map(p -> ProdutoDto.toDto(p)).toList());
-	}
+        		categoria.getDescricao());
+	} //, categoria.getProdutos().stream().map(p -> ProdutoDto.toDto(p)).toList()
 }
