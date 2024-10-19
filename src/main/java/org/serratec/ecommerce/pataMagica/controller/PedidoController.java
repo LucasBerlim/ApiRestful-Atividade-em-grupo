@@ -6,8 +6,6 @@ import java.util.Optional;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.RelatorioPedidoDto;
-import org.serratec.ecommerce.pataMagica.model.ItemPedido;
-import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +52,9 @@ public class PedidoController {
 	}
 	
 	@PostMapping
+	 @Operation(summary = "Cadastrar um novo pedido",
+		        description = "Criar um novo pedido e retornar os detalhes do pedido criado")
+	@ApiResponse(responseCode = "200", description = "Pedido criado com sucesso")
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoDtoCadastroPedido cadastrarPedido(@RequestBody PedidoDtoCadastroPedido dto) {
 		return service.salvarPedido(dto);
@@ -66,6 +67,12 @@ public class PedidoController {
 	}*/
 	
 	@DeleteMapping("/{id}")
+	@Operation(summary = "Deletar um pedido",
+	description = "Apagar um pedido de acordo com o ID fornecido")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
+			@ApiResponse(responseCode = "200", description = "Pedido deletado")
+	})
 	public ResponseEntity<Void> deletaPedido(@PathVariable Long id){
 		if(!service.apagarPedido(id)) {
 			return ResponseEntity.notFound().build();
@@ -74,6 +81,12 @@ public class PedidoController {
 	}
 
 	@PutMapping("/{id}")
+	@Operation(summary = "Alterar um pedido",
+	description = "Apagar um pedido de acordo com o ID fornecido")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
+			@ApiResponse(responseCode = "200", description = "Pedido alterado")
+	})
 	public ResponseEntity<PedidoDto> alterarPedido(@PathVariable Long id, @RequestBody PedidoDto dto){
 		Optional<PedidoDto> pedidoAlterado = service.alterarPedido(id, dto);
 		if (!pedidoAlterado.isPresent()) {
@@ -83,6 +96,10 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/relatorio/{id}")
+	@Operation(summary = "Gerar relatorio do pedido",
+	description = "Gerar um relatorio do pedido de acordo com o ID fornecido")
+	@ApiResponse(responseCode = "404", description = "Não foi encontrado relatorio pelo id informado. Verifique!")
+
     public ResponseEntity<RelatorioPedidoDto> gerarRelatorioPedido(@PathVariable Long id) {
         RelatorioPedidoDto relatorio = service.gerarRelatorioPedido(id);
         return ResponseEntity.ok(relatorio);
