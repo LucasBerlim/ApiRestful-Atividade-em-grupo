@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -35,6 +39,12 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/{id}")
+	@Operation(summary = "Retorna um pedido por id",
+	description = "Dado um determinado id, será retornado o pedido com as informações gerais do pedido e os itens contidos no pedido.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
+			@ApiResponse(responseCode = "200", description = "Pedido localizado")
+	})
 	public ResponseEntity<PedidoDto> obterPorId(@PathVariable Long id) {
 		Optional<PedidoDto> dto = service.obterPorId(id);
 		if (!dto.isPresent()) {
