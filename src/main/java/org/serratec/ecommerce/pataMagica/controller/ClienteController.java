@@ -44,27 +44,12 @@ public class ClienteController {
 		}
 		return ResponseEntity.ok(dto.get());
 	}
-	
+
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-public ClienteDto cadastrarCliente(@RequestBody ClienteDto dto) {
-		
-		String json = ConsumoApiCep.obterDados(dto.toEntity().getEndereco().getCep());
-		DadosCep dadosCep = new Gson().fromJson(json, DadosCep.class);
-		Endereco endereco = new Endereco();
-		endereco.setCep(dto.toEntity().getEndereco().getCep());
-		endereco.setRua(dadosCep.rua());
-		endereco.setBairro(dadosCep.bairro());
-		endereco.setCidade(dadosCep.cidade());
-		endereco.setUf(dadosCep.uf());
-		endereco.setNumero(dto.toEntity().getEndereco().getNumero());
-		endereco.setComplemento(dto.toEntity().getEndereco().getComplemento());
-		
-		Cliente cliente = dto.toEntity();
-		cliente.setEndereco(endereco);
-		
-		return service.salvarCliente(ClienteDto.toDto(cliente));
-	}
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClienteDto cadastrarCliente(@RequestBody ClienteDto dto) {
+        return service.salvarCliente(dto);
+    }
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletaCliente(@PathVariable Long id){
