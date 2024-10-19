@@ -39,6 +39,47 @@ public class PedidoDtoCadastroPedido {
 			this.clienteId = clienteId;
 			this.itensPedido = itensPedido;
 		}
+	
+	public Pedido toEntity() {
+		Pedido pedido = new Pedido();
+		pedido.setId(this.id);
+		pedido.setDataPedido(this.dataPedido);
+		pedido.setDataEntrega(this.dataEntrega);
+		pedido.setDataEnvio(this.dataEnvio);
+		pedido.setStatus(this.status);
+		pedido.setValorTotal(this.valorTotal);
+		Cliente cliente = new Cliente();
+		pedido.setCliente(cliente);
+		pedido.getCliente().setId(this.clienteId); //teste
+		// LÓGICA PARA ATRIBUIR CONTAS AO PEDIDO
+		double valorTotal = 0;
+		for (ItemPedidoDtoCadastroPedido ip : this.itensPedido) {
+			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
+			if(produto.isPresent()) {
+				
+				ip.setValorBruto(produto.get().valorUnitario() * ip.getQuantidade());
+				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
+				valorTotal += ip.getValorLiquido();
+				System.out.println(valorTotal);
+			}
+		}
+		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
+		return pedido;
+	}
+	
+	public static PedidoDtoCadastroPedido toDto(Pedido pedido) {
+		
+		return new PedidoDtoCadastroPedido(
+		        pedido.getId(),
+		        pedido.getDataPedido(),
+		        pedido.getDataEntrega(),
+		        pedido.getDataEnvio(),
+		        pedido.isStatus(),
+		        pedido.getValorTotal(),
+		        pedido.getCliente().getId(),
+		        pedido.getItensPedido().stream().map(ip -> ItemPedidoDtoCadastroPedido.toDto(ip)).toList()
+		    );
+	}
 
 	public Long getId() {
 			return id;
@@ -103,44 +144,4 @@ public class PedidoDtoCadastroPedido {
 		public void setItensPedido(List<ItemPedidoDtoCadastroPedido> itensPedido) {
 			this.itensPedido = itensPedido;
 		}
-
-	public Pedido toEntity() {
-		Pedido pedido = new Pedido();
-		pedido.setId(this.id);
-		pedido.setDataPedido(this.dataPedido);
-		pedido.setDataEntrega(this.dataEntrega);
-		pedido.setDataEnvio(this.dataEnvio);
-		pedido.setStatus(this.status);
-		pedido.setValorTotal(this.valorTotal);
-		Cliente cliente = new Cliente();
-		pedido.setCliente(cliente);
-		pedido.getCliente().setId(this.clienteId); //teste
-		double valorTotal = 0;
-		for (ItemPedidoDtoCadastroPedido ip : this.itensPedido) {
-			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
-			if(produto.isPresent()) {
-				
-				ip.setValorBruto(produto.get().valorUnitario() * ip.getQuantidade());
-				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
-				valorTotal += ip.getValorLiquido();
-				System.out.println(valorTotal);
-			}
-		}
-		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
-		return pedido;
-	}
-	
-	public static PedidoDtoCadastroPedido toDto(Pedido pedido) {
-		
-		return new PedidoDtoCadastroPedido(
-		        pedido.getId(),
-		        pedido.getDataPedido(),
-		        pedido.getDataEntrega(),
-		        pedido.getDataEnvio(),
-		        pedido.isStatus(),
-		        pedido.getValorTotal(),
-		        pedido.getCliente().getId(),
-		        pedido.getItensPedido().stream().map(ip -> ItemPedidoDtoCadastroPedido.toDto(ip)).toList()
-		    );
-	}
 }
