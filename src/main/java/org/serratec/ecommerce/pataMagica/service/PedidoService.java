@@ -56,11 +56,19 @@ public class PedidoService {
 		return PedidoDto.toDto(pedidoEntity);
 	}*/
 	
-	public boolean apagarPedido(Long id) {
+	/*public boolean apagarPedido(Long id) {
 		if(!repository.existsById(id)) {
 			return false;
 		}
 		repository.deleteById(id);
+		return true;
+	}*/
+	
+	public boolean apagarPedido(Long id) {
+		if(!repository.existsById(id)) {
+			return false;
+		}
+		repository.deletarPorId(id);
 		return true;
 	}
 
