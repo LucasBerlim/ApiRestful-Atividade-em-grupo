@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
+import org.serratec.ecommerce.pataMagica.dto.RelatorioDto;
 import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.service.PedidoService;
@@ -70,4 +71,14 @@ public class PedidoController {
 		}
 		return ResponseEntity.ok(pedidoAlterado.get());
 	}
+	
+	@GetMapping("/relatorio/{id}")
+	public List<RelatorioDto> gerarRelatorioPedido(@PathVariable Long id) {
+		return service.gerarRelatorioPedido(id);
+	}
+	
+	/*@GetMapping("/relatorio/{id}")
+	public List<PedidoDto> gerarRelatorioPedido(@PathVariable Long id) {
+		return service.gerarRelatorioPedido(id);
+	}*/
 }

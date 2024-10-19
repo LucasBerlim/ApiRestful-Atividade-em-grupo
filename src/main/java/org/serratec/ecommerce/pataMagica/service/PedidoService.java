@@ -8,6 +8,7 @@ import org.serratec.ecommerce.pataMagica.dto.ItemPedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
+import org.serratec.ecommerce.pataMagica.dto.RelatorioDto;
 import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
@@ -72,6 +73,13 @@ public class PedidoService {
 		repository.save(pedidoEntity);
 		return Optional.of(PedidoDto.toDto(pedidoEntity));
 	}
+
+	/*public List<PedidoDto> gerarRelatorioPedido(Long id) {
+		return repository.gerarRelatorioPedido(id).stream().map(p -> PedidoDto.toDto(p)).toList();
+	}*/
 	
-	
+	public List<RelatorioDto> gerarRelatorioPedido(Long id) {
+		return repository.gerarRelatorioPedido(id).stream().map(r -> RelatorioDto.toDto(r)).toList();
+		//return RelatorioDto.toDto(repository.gerarRelatorioPedido(id).stream().map(r -> RelatorioDto.toDto(r)).toList());
+	}
 }
