@@ -32,6 +32,9 @@ public class PedidoController {
 	private PedidoService service;
 	
 	@GetMapping
+	@Operation(summary = "Retorna todos os pedidos.",
+	description = "Dado um determinado id, será retornado os pedidos com as informações gerais do pedido e os itens contidos no pedido.")
+	@ApiResponse(responseCode = "200", description = "Pedidos localizados")
 	public List<PedidoDto> obterTodos() {
 		return service.obterTodos();
 	}
@@ -68,7 +71,7 @@ public class PedidoController {
 	
 	@DeleteMapping("/{id}")
 	@Operation(summary = "Deletar um pedido",
-	description = "Apagar um pedido de acordo com o ID fornecido")
+	description = "Apagar um pedido de acordo com o id fornecido")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Pedido deletado")
@@ -82,10 +85,10 @@ public class PedidoController {
 
 	@PutMapping("/{id}")
 	@Operation(summary = "Alterar um pedido",
-	description = "Apagar um pedido de acordo com o ID fornecido")
+	description = "Apagar um pedido de acordo com o id fornecido")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
-			@ApiResponse(responseCode = "200", description = "Pedido alterado")
+			@ApiResponse(responseCode = "200", description = "Pedido alterado.")
 	})
 	public ResponseEntity<PedidoDto> alterarPedido(@PathVariable Long id, @RequestBody PedidoDto dto){
 		Optional<PedidoDto> pedidoAlterado = service.alterarPedido(id, dto);
@@ -96,10 +99,12 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/relatorio/{id}")
-	@Operation(summary = "Gerar relatorio do pedido",
-	description = "Gerar um relatorio do pedido de acordo com o ID fornecido")
-	@ApiResponse(responseCode = "404", description = "Não foi encontrado relatorio pelo id informado. Verifique!")
-
+	@Operation(summary = "Gerar um relatório do pedido",
+	description = "Gerar um relatório do pedido de acordo com o id fornecido")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404", description = "Não foi encontrado o relatório pelo id informado. Verifique!"),
+			@ApiResponse(responseCode = "200", description = "Relatório encontrado.")
+	})
     public ResponseEntity<RelatorioPedidoDto> gerarRelatorioPedido(@PathVariable Long id) {
         RelatorioPedidoDto relatorio = service.gerarRelatorioPedido(id);
         return ResponseEntity.ok(relatorio);
