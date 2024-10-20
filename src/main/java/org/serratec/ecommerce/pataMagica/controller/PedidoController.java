@@ -83,7 +83,7 @@ public class PedidoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping("/{id}")
+	/*@PutMapping("/{id}")
 	@Operation(summary = "Alterar um pedido",
 	description = "Apagar um pedido de acordo com o id fornecido")
 	@ApiResponses(value = {
@@ -92,6 +92,21 @@ public class PedidoController {
 	})
 	public ResponseEntity<PedidoDto> alterarPedido(@PathVariable Long id, @RequestBody PedidoDto dto){
 		Optional<PedidoDto> pedidoAlterado = service.alterarPedido(id, dto);
+		if (!pedidoAlterado.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(pedidoAlterado.get());
+	}*/
+	
+	@PutMapping("/{id}")
+	@Operation(summary = "Alterar um pedido",
+	description = "Apagar um pedido de acordo com o id fornecido")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
+			@ApiResponse(responseCode = "200", description = "Pedido alterado.")
+	})
+	public ResponseEntity<PedidoDtoCadastroPedido> alterarPedido(@PathVariable Long id, @RequestBody PedidoDtoCadastroPedido dto){
+		Optional<PedidoDtoCadastroPedido> pedidoAlterado = service.alterarPedido(id, dto);
 		if (!pedidoAlterado.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}

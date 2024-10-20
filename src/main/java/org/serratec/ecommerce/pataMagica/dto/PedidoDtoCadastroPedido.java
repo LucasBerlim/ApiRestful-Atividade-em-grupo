@@ -2,7 +2,6 @@ package org.serratec.ecommerce.pataMagica.dto;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.model.Cliente;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
@@ -10,21 +9,19 @@ import org.serratec.ecommerce.pataMagica.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class PedidoDtoCadastroPedido {
-		@Autowired
-		ProdutoService produtoService;
+	@Autowired
+	ProdutoService produtoService;
 		
-		private Long id;
-		private LocalDate dataPedido;
-		private LocalDate dataEntrega;
-		private LocalDate dataEnvio;
-		private boolean status;
-		private Double valorTotal;
-		private Long clienteId; //teste
-		private List<ItemPedidoDtoCadastroPedido> itensPedido;
+	private Long id;
+	private LocalDate dataPedido;
+	private LocalDate dataEntrega;
+	private LocalDate dataEnvio;
+	private boolean status;
+	private Double valorTotal;
+	private Long clienteId; //teste
+	private List<ItemPedidoDtoCadastroPedido> itensPedido;
 		
-		public PedidoDtoCadastroPedido() {
-			
-		}
+	public PedidoDtoCadastroPedido() {}
 		
 	public PedidoDtoCadastroPedido(Long id, LocalDate dataPedido,
 				LocalDate dataEntrega, LocalDate dataEnvio, boolean status, Double valorTotal, Long clienteId,
@@ -50,19 +47,7 @@ public class PedidoDtoCadastroPedido {
 		pedido.setValorTotal(this.valorTotal);
 		Cliente cliente = new Cliente();
 		pedido.setCliente(cliente);
-		pedido.getCliente().setId(this.clienteId); //teste
-		// LÓGICA PARA ATRIBUIR CONTAS AO PEDIDO
-		double valorTotal = 0;
-		for (ItemPedidoDtoCadastroPedido ip : this.itensPedido) {
-			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
-			if(produto.isPresent()) {
-				
-				ip.setValorBruto(produto.get().valorUnitario() * ip.getQuantidade());
-				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
-				valorTotal += ip.getValorLiquido();
-				System.out.println(valorTotal);
-			}
-		}
+		pedido.getCliente().setId(this.clienteId);
 		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return pedido;
 	}

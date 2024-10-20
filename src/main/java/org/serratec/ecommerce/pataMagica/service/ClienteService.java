@@ -28,9 +28,9 @@ public class ClienteService {
 		}
 		return Optional.of(ClienteDto.toDto(repository.findById(id).get()));
 	}
-
-	public ClienteDto salvarCliente(ClienteDto dto) {
-        String json = ConsumoApiCep.obterDados(dto.toEntity().getEndereco().getCep());
+	
+	public ClienteDto aplicarApiCep(ClienteDto dto) {
+		String json = ConsumoApiCep.obterDados(dto.toEntity().getEndereco().getCep());
         DadosCep dadosCep = new Gson().fromJson(json, DadosCep.class);
 
         Endereco endereco = new Endereco();
@@ -44,8 +44,12 @@ public class ClienteService {
 
         Cliente cliente = dto.toEntity();
         cliente.setEndereco(endereco);
+        return ClienteDto.toDto(cliente);
+	}
 
-        Cliente clienteEntity = repository.save(cliente);
+	public ClienteDto salvarCliente(ClienteDto dto) {
+		ClienteDto cliente = aplicarApiCep(dto);
+        Cliente clienteEntity = repository.save(cliente.toEntity());
         return ClienteDto.toDto(clienteEntity);
     }
 	
@@ -61,7 +65,7 @@ public class ClienteService {
 		if(!repository.existsById(id)) {
 			return Optional.empty();
 		}
-		Cliente clienteEntity = dto.toEntity();
+		Cliente clienteEntity = aplicarApiCep(dto).toEntity();
 		clienteEntity.setId(id);
 		repository.save(clienteEntity);
 		return Optional.of(ClienteDto.toDto(clienteEntity));

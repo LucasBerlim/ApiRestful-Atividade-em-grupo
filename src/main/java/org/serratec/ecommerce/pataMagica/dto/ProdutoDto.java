@@ -2,7 +2,6 @@ package org.serratec.ecommerce.pataMagica.dto;
 
 import java.time.LocalDate;
 
-import org.serratec.ecommerce.pataMagica.model.Categoria;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
 public record ProdutoDto(

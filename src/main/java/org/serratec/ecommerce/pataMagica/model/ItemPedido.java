@@ -21,7 +21,8 @@ public class ItemPedido {
 	private Double percentualDesconto;
 	private Double valorBruto;
 	private Double valorLiquido;
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonManagedReference
 	@ManyToOne
 	private Produto produto;
 	@JsonBackReference
