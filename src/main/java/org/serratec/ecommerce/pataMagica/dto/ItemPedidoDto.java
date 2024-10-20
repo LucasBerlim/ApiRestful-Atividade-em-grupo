@@ -4,27 +4,28 @@ import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
 public class ItemPedidoDto {
-		private Long id;
-		private int quantidade;
-		private Double precoVenda;
-		private Double percentualDesconto;
-		private Double valorBruto;
-		private Double valorLiquido;
-		private Long produtoId;
-		
-		public ItemPedidoDto() {}
-		
+	private Long id;
+	private int quantidade;
+	private Double precoVenda;
+	private Double percentualDesconto;
+	private Double valorBruto;
+	private Double valorLiquido;
+	private Long produtoId;
+
+	public ItemPedidoDto() {
+	}
+
 	public ItemPedidoDto(Long id, int quantidade, Double precoVenda, Double percentualDesconto, Double valorBruto,
-				Double valorLiquido, Long produtoId) {
-			super();
-			this.id = id;
-			this.quantidade = quantidade;
-			this.precoVenda = precoVenda;
-			this.percentualDesconto = percentualDesconto;
-			this.valorBruto = valorBruto;
-			this.valorLiquido = valorLiquido;
-			this.produtoId = produtoId;
-		}
+			Double valorLiquido, Long produtoId) {
+		super();
+		this.id = id;
+		this.quantidade = quantidade;
+		this.precoVenda = precoVenda;
+		this.percentualDesconto = percentualDesconto;
+		this.valorBruto = valorBruto;
+		this.valorLiquido = valorLiquido;
+		this.produtoId = produtoId;
+	}
 
 	public ItemPedido toEntity() {
 		ItemPedido itemPedido = new ItemPedido();
@@ -39,15 +40,13 @@ public class ItemPedidoDto {
 		itemPedido.getProduto().setId(this.produtoId);
 		return itemPedido;
 	}
-	
+
 	public static ItemPedidoDto toDto(ItemPedido itemPedido) {
-        return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), 
-        		itemPedido.getPrecoVenda(), itemPedido.getPercentualDesconto(), 
-        		itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
-        		itemPedido.getProduto().getId()
-        		);
+		return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), itemPedido.getPrecoVenda(),
+				itemPedido.getPercentualDesconto(), itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
+				itemPedido.getProduto().getId());
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
