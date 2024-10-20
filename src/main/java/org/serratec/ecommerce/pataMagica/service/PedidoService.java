@@ -1,22 +1,17 @@
 package org.serratec.ecommerce.pataMagica.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import org.serratec.ecommerce.pataMagica.dto.ItemPedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.ItemPedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
 import org.serratec.ecommerce.pataMagica.dto.RelatorioPedidoDto;
-import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PedidoService {
@@ -53,7 +48,7 @@ public class PedidoService {
 			    valorBruto = ip.getValorBruto();
 				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
 				valorLiquido = ip.getValorLiquido();
-				valorTotal += ip.getValorLiquido();
+				valorTotal += valorLiquido;
 				
 				dto.getItensPedido().get(i).setValorBruto(valorBruto);
 				dto.getItensPedido().get(i).setValorLiquido(valorLiquido);
@@ -79,16 +74,6 @@ public class PedidoService {
 		repository.deletarPorId(id);
 		return true;
 	}
-
-	/*public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto){
-		if(!repository.existsById(id)) {
-			return Optional.empty();
-		}
-		Pedido pedidoEntity = dto.toEntity();
-		pedidoEntity.setId(id);
-		repository.save(pedidoEntity);
-		return Optional.of(PedidoDto.toDto(pedidoEntity));
-	}*/
 	
 	public Optional<PedidoDtoCadastroPedido> alterarPedido(Long id, PedidoDtoCadastroPedido dto){
 		if(!repository.existsById(id)) {
