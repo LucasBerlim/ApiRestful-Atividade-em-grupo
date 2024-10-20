@@ -1,5 +1,7 @@
 package org.serratec.ecommerce.pataMagica.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,48 +39,38 @@ public class PedidoService {
 	
 	public PedidoDtoCadastroPedido calcularPedido(PedidoDtoCadastroPedido dto) {
 		double valorTotal = 0;
+		double valorBruto = 0;
+		double valorLiquido = 0;
 		Pedido pedido = dto.toEntity();
 		
+		int i = 0;
 		for (ItemPedidoDtoCadastroPedido ip : pedido.getItensPedido().stream().map(ip -> 
 				ItemPedidoDtoCadastroPedido.toDto(ip)).toList()) {
 			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
 			if(produto.isPresent()) {
 				
 				ip.setValorBruto(produto.get().valorUnitario() * ip.getQuantidade());
+			    valorBruto = ip.getValorBruto();
 				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
+				valorLiquido = ip.getValorLiquido();
 				valorTotal += ip.getValorLiquido();
 				
+				dto.getItensPedido().get(i).setValorBruto(valorBruto);
+				dto.getItensPedido().get(i).setValorLiquido(valorLiquido);
+				dto.getItensPedido().get(i).setPrecoVenda(produto.get().valorUnitario());
+				i++;
 			}
 		}
-		System.out.println("Valor total:" + valorTotal);
+		dto.setValorTotal(valorTotal);
 		pedido.setValorTotal(valorTotal);
 		return dto;
 	}
 	
 	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
-		// talvez implementar a lógica da conta aqui, através do método calcularPedido:
 		Pedido pedido = calcularPedido(dto).toEntity();
-		
 		Pedido pedidoEntity = repository.save(pedido);
-		//Pedido pedidoEntity = repository.save(dto.toEntity());
 		return PedidoDtoCadastroPedido.toDto(pedidoEntity);
-		
-		//Pedido pedidoEntity = repository.save(dto.toEntity());
-		//return PedidoDtoCadastroPedido.toDto(pedidoEntity);
 	}
-	
-	/*public PedidoDto salvarPedido(PedidoDto dto) {
-		Pedido pedidoEntity = repository.save(dto.toEntity());
-		return PedidoDto.toDto(pedidoEntity);
-	}*/
-	
-	/*public boolean apagarPedido(Long id) {
-		if(!repository.existsById(id)) {
-			return false;
-		}
-		repository.deleteById(id);
-		return true;
-	}*/
 	
 	public boolean apagarPedido(Long id) {
 		if(!repository.existsById(id)) {
@@ -88,7 +80,7 @@ public class PedidoService {
 		return true;
 	}
 
-	public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto){
+	/*public Optional<PedidoDto> alterarPedido(Long id, PedidoDto dto){
 		if(!repository.existsById(id)) {
 			return Optional.empty();
 		}
@@ -96,6 +88,16 @@ public class PedidoService {
 		pedidoEntity.setId(id);
 		repository.save(pedidoEntity);
 		return Optional.of(PedidoDto.toDto(pedidoEntity));
+	}*/
+	
+	public Optional<PedidoDtoCadastroPedido> alterarPedido(Long id, PedidoDtoCadastroPedido dto){
+		if(!repository.existsById(id)) {
+			return Optional.empty();
+		}
+		Pedido pedidoEntity = calcularPedido(dto).toEntity();
+		pedidoEntity.setId(id);
+		repository.save(pedidoEntity);
+		return Optional.of(PedidoDtoCadastroPedido.toDto(pedidoEntity));
 	}
 	
 	public RelatorioPedidoDto gerarRelatorioPedido(Long id) {

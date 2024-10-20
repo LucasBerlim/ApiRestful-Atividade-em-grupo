@@ -28,8 +28,8 @@ public class Produto {
 	private LocalDate dataCadastro;
 	private Double valorUnitario;
 	private String imagem;
-	//@JsonBackReference
-	@JsonManagedReference
+	@JsonBackReference
+	//@JsonManagedReference
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemPedido> itensPedido;
 	@JsonManagedReference

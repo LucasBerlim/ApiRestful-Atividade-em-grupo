@@ -10,12 +10,12 @@ public class ItemPedidoDto {
 		private Double percentualDesconto;
 		private Double valorBruto;
 		private Double valorLiquido;
-		private Produto produto;
+		private Long produtoId;
 		
 		public ItemPedidoDto() {}
 		
 	public ItemPedidoDto(Long id, int quantidade, Double precoVenda, Double percentualDesconto, Double valorBruto,
-				Double valorLiquido, Produto produto) {
+				Double valorLiquido, Long produtoId) {
 			super();
 			this.id = id;
 			this.quantidade = quantidade;
@@ -23,7 +23,7 @@ public class ItemPedidoDto {
 			this.percentualDesconto = percentualDesconto;
 			this.valorBruto = valorBruto;
 			this.valorLiquido = valorLiquido;
-			this.produto = produto;
+			this.produtoId = produtoId;
 		}
 
 	public ItemPedido toEntity() {
@@ -34,7 +34,9 @@ public class ItemPedidoDto {
 		itemPedido.setPercentualDesconto(this.percentualDesconto);
 		itemPedido.setValorBruto(this.valorBruto);
 		itemPedido.setValorLiquido(this.valorLiquido);
-		itemPedido.setProduto(this.produto);
+		Produto produto = new Produto();
+		itemPedido.setProduto(produto);
+		itemPedido.getProduto().setId(this.produtoId);
 		return itemPedido;
 	}
 	
@@ -42,7 +44,7 @@ public class ItemPedidoDto {
         return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), 
         		itemPedido.getPrecoVenda(), itemPedido.getPercentualDesconto(), 
         		itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
-        		itemPedido.getProduto()
+        		itemPedido.getProduto().getId()
         		);
 	}
 	
@@ -94,11 +96,11 @@ public class ItemPedidoDto {
 		this.valorLiquido = valorLiquido;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public Long getProdutoId() {
+		return produtoId;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setProdutoId(Long produtoId) {
+		this.produtoId = produtoId;
 	}
 }
