@@ -52,7 +52,7 @@ public class PedidoDtoCadastroPedido {
 		pedido.setCliente(cliente);
 		pedido.getCliente().setId(this.clienteId); //teste
 		// LÓGICA PARA ATRIBUIR CONTAS AO PEDIDO
-		double valorTotal = 0;
+		/*double valorTotal = 0;
 		for (ItemPedidoDtoCadastroPedido ip : this.itensPedido) {
 			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
 			if(produto.isPresent()) {
@@ -62,7 +62,7 @@ public class PedidoDtoCadastroPedido {
 				valorTotal += ip.getValorLiquido();
 				System.out.println(valorTotal);
 			}
-		}
+		}*/
 		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return pedido;
 	}

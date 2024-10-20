@@ -35,16 +35,32 @@ public class PedidoService {
 		return Optional.of(PedidoDto.toDto(repository.findById(id).get()));
 	}
 	
+	public PedidoDtoCadastroPedido calcularPedido(PedidoDtoCadastroPedido dto) {
+		double valorTotal = 0;
+		Pedido pedido = dto.toEntity();
+		
+		for (ItemPedidoDtoCadastroPedido ip : pedido.getItensPedido().stream().map(ip -> 
+				ItemPedidoDtoCadastroPedido.toDto(ip)).toList()) {
+			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
+			if(produto.isPresent()) {
+				
+				ip.setValorBruto(produto.get().valorUnitario() * ip.getQuantidade());
+				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
+				valorTotal += ip.getValorLiquido();
+				
+			}
+		}
+		System.out.println("Valor total:" + valorTotal);
+		pedido.setValorTotal(valorTotal);
+		return dto;
+	}
+	
 	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
 		// talvez implementar a lógica da conta aqui, através do método calcularPedido:
+		Pedido pedido = calcularPedido(dto).toEntity();
 		
-		
-		//Pedido pedido = new Pedido();
-		Pedido pedido = dto.toEntity();
-		//pedido.setItensPedido(dto.toEntity().getItensPedido());
-		//pedido.setItensPedido(dto.itensPedido().stream().map(ip -> ip.toEntity()).toList());
-		
-		Pedido pedidoEntity = repository.save(dto.toEntity());
+		Pedido pedidoEntity = repository.save(pedido);
+		//Pedido pedidoEntity = repository.save(dto.toEntity());
 		return PedidoDtoCadastroPedido.toDto(pedidoEntity);
 		
 		//Pedido pedidoEntity = repository.save(dto.toEntity());
