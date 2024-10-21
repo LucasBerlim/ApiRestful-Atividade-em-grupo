@@ -20,6 +20,8 @@ public class PedidoService {
 	private PedidoRepository repository;
 	@Autowired
 	private ProdutoService produtoService;
+	@Autowired
+	private EmailService emailService;
 	
 	public List<PedidoDto> obterTodos(){
 		return repository.findAll().stream().map(p -> PedidoDto.toDto(p)).toList();
@@ -64,6 +66,10 @@ public class PedidoService {
 	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
 		Pedido pedido = calcularPedido(dto).toEntity();
 		Pedido pedidoEntity = repository.save(pedido);
+		
+		// pegar o email do cliente
+		emailService.enviarEmail("berlimtere@gmail.com", "Novo pedido", pedidoEntity.toString()); //fazer tostring na pedido entity
+		
 		return PedidoDtoCadastroPedido.toDto(pedidoEntity);
 	}
 	

@@ -84,4 +84,10 @@ public class Pedido {
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
 	}
+	@Override
+	public String toString() {
+		return "Código do pedido =" + id + ", dataPedido =" + dataPedido
+				+ "valorTotal=" + valorTotal
+				+ ", itensPedido=" + itensPedido.toString() + "]";
+	}
 }

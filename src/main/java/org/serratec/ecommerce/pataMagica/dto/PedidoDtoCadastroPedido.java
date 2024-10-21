@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.serratec.ecommerce.pataMagica.model.Cliente;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
+import org.serratec.ecommerce.pataMagica.model.Produto;
 import org.serratec.ecommerce.pataMagica.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 

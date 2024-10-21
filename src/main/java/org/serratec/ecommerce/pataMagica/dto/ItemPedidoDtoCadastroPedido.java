@@ -1,5 +1,7 @@
 package org.serratec.ecommerce.pataMagica.dto;
 
+import javax.imageio.event.IIOWriteProgressListener;
+
 import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
@@ -39,6 +41,9 @@ public class ItemPedidoDtoCadastroPedido {
 		Produto produto = new Produto();
 		itemPedido.setProduto(produto);
 		itemPedido.getProduto().setId(this.produtoId);
+		
+		itemPedido.setProduto(produto);
+		//itemPedido.getProduto().setNome(itemPedido); // não funciona!
 		return itemPedido;
 	}
 
