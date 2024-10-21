@@ -1,4 +1,4 @@
-package org.serratec.ecommerce.pataMagica;
+package org.serratec.ecommerce.pataMagica.config;
 
 import org.springframework.context.annotation.Configuration;
 
