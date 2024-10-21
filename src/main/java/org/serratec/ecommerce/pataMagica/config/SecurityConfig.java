@@ -17,15 +17,15 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	@Bean
+	/*@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    http
 	        .authorizeHttpRequests(authorize -> authorize
-	            .requestMatchers(HttpMethod.GET, "/pedidos").permitAll()
+	            .requestMatchers(HttpMethod.GET, "**").permitAll()
 	            .requestMatchers(HttpMethod.GET, "/pedidos/**").permitAll()
 	            .requestMatchers(HttpMethod.POST, "/pedidos").hasRole("ADM")
-	            .requestMatchers(HttpMethod.PUT, "/pedidos/**").hasRole("ADM")
-	            .requestMatchers(HttpMethod.DELETE, "/pedidos/**").hasRole("ADM")
+	            //.requestMatchers(HttpMethod.PUT, "/pedidos/**").hasRole("ADM")
+	            //.requestMatchers(HttpMethod.DELETE, "/pedidos/**").hasRole("ADM")
 	            
 	            .requestMatchers(HttpMethod.GET, "/clientes").permitAll()
 	            .requestMatchers(HttpMethod.GET, "/clientes/**").permitAll()
@@ -49,6 +49,22 @@ public class SecurityConfig {
 	        .httpBasic(Customizer.withDefaults());
 
 	    return http.build();
+	}*/
+	
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		//http.authorizeHttpRequests(r -> r.anyRequest().authenticated())
+		//.httpBasic(Customizer.withDefaults());
+		
+		http.authorizeHttpRequests(authorize -> authorize
+		.requestMatchers(HttpMethod.GET, "**").permitAll()
+		.requestMatchers(HttpMethod.PUT, "**").permitAll()
+		.requestMatchers(HttpMethod.POST, "**").permitAll()
+		.requestMatchers(HttpMethod.POST, "**").hasRole("ADM"))
+		.csrf(csrf -> csrf.disable())
+		.httpBasic(Customizer.withDefaults());
+		
+		return http.build();
 	}
 	
 	@Bean

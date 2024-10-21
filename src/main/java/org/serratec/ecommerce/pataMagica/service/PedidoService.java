@@ -46,7 +46,7 @@ public class PedidoService {
 			Optional<ProdutoDto> produto = produtoService.obterPorId(ip.getProdutoId());
 			if(produto.isPresent()) {
 				
-				ip.setValorBruto(produto.get().valorUnitario() * ip.getQuantidade());
+				ip.setValorBruto(produto.get().getValorUnitario() * ip.getQuantidade());
 			    valorBruto = ip.getValorBruto();
 				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
 				valorLiquido = ip.getValorLiquido();
@@ -54,7 +54,7 @@ public class PedidoService {
 				
 				dto.getItensPedido().get(i).setValorBruto(valorBruto);
 				dto.getItensPedido().get(i).setValorLiquido(valorLiquido);
-				dto.getItensPedido().get(i).setPrecoVenda(produto.get().valorUnitario());
+				dto.getItensPedido().get(i).setPrecoVenda(produto.get().getValorUnitario());
 				i++;
 			}
 		}
@@ -66,11 +66,18 @@ public class PedidoService {
 	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
 		Pedido pedido = calcularPedido(dto).toEntity();
 		Pedido pedidoEntity = repository.save(pedido);
+		Long id = pedidoEntity.getId();
+		System.out.println(repository.findById(id).get().getItensPedido());
 		
+		
+		//ProdutoDto produtoDto = new ProdutoDto();
+		//pedidoEntity.getItensPedido().stream().map(ip -> ip.getProduto());
 		// pegar o email do cliente
-		emailService.enviarEmail("berlimtere@gmail.com", "Novo pedido", pedidoEntity.toString()); //fazer tostring na pedido entity
-		
-		return PedidoDtoCadastroPedido.toDto(pedidoEntity);
+		 //fazer tostring na pedido entity
+		PedidoDtoCadastroPedido dtoNovo = PedidoDtoCadastroPedido.toDto(pedidoEntity);
+		System.out.println(dtoNovo.getId());
+		gerarRelatorioPedido(id, true);
+		return dtoNovo;
 	}
 	
 	public boolean apagarPedido(Long id) {
@@ -91,9 +98,15 @@ public class PedidoService {
 		return Optional.of(PedidoDtoCadastroPedido.toDto(pedidoEntity));
 	}
 	
-	public RelatorioPedidoDto gerarRelatorioPedido(Long id) {
+	public RelatorioPedidoDto gerarRelatorioPedido(Long id, boolean enviaEmail) {
         Pedido pedido = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        
+        if (enviaEmail) {
+        	emailService.enviarEmail("berlimtere@gmail.com", "Novo pedido", RelatorioPedidoDto.toDto(pedido).toString());
+		}
+        
+        
         return RelatorioPedidoDto.toDto(pedido);
     }
 }

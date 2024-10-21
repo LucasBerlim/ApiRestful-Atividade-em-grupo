@@ -121,7 +121,7 @@ public class PedidoController {
 			@ApiResponse(responseCode = "200", description = "Relatório encontrado.")
 	})
     public ResponseEntity<RelatorioPedidoDto> gerarRelatorioPedido(@PathVariable Long id) {
-        RelatorioPedidoDto relatorio = service.gerarRelatorioPedido(id);
+        RelatorioPedidoDto relatorio = service.gerarRelatorioPedido(id, false);
         return ResponseEntity.ok(relatorio);
 	}
 }

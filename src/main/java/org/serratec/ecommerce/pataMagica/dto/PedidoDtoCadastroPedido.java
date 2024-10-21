@@ -12,32 +12,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class PedidoDtoCadastroPedido {
 	@Autowired
 	ProdutoService produtoService;
-		
+
 	private Long id;
 	private LocalDate dataPedido;
 	private LocalDate dataEntrega;
 	private LocalDate dataEnvio;
 	private boolean status;
 	private Double valorTotal;
-	private Long clienteId; //teste
+	private Long clienteId;
 	private List<ItemPedidoDtoCadastroPedido> itensPedido;
-		
-	public PedidoDtoCadastroPedido() {}
-		
-	public PedidoDtoCadastroPedido(Long id, LocalDate dataPedido,
-				LocalDate dataEntrega, LocalDate dataEnvio, boolean status, Double valorTotal, Long clienteId,
-				List<ItemPedidoDtoCadastroPedido> itensPedido) {
-			super();
-			this.id = id;
-			this.dataPedido = dataPedido;
-			this.dataEntrega = dataEntrega;
-			this.dataEnvio = dataEnvio;
-			this.status = status;
-			this.valorTotal = valorTotal;
-			this.clienteId = clienteId;
-			this.itensPedido = itensPedido;
-		}
-	
+
+	public PedidoDtoCadastroPedido() {
+	}
+
+	public PedidoDtoCadastroPedido(Long id, LocalDate dataPedido, LocalDate dataEntrega, LocalDate dataEnvio,
+			boolean status, Double valorTotal, Long clienteId, List<ItemPedidoDtoCadastroPedido> itensPedido) {
+		super();
+		this.id = id;
+		this.dataPedido = dataPedido;
+		this.dataEntrega = dataEntrega;
+		this.dataEnvio = dataEnvio;
+		this.status = status;
+		this.valorTotal = valorTotal;
+		this.clienteId = clienteId;
+		this.itensPedido = itensPedido;
+	}
+
 	public Pedido toEntity() {
 		Pedido pedido = new Pedido();
 		pedido.setId(this.id);
@@ -52,82 +52,75 @@ public class PedidoDtoCadastroPedido {
 		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return pedido;
 	}
-	
+
 	public static PedidoDtoCadastroPedido toDto(Pedido pedido) {
-		
-		return new PedidoDtoCadastroPedido(
-		        pedido.getId(),
-		        pedido.getDataPedido(),
-		        pedido.getDataEntrega(),
-		        pedido.getDataEnvio(),
-		        pedido.isStatus(),
-		        pedido.getValorTotal(),
-		        pedido.getCliente().getId(),
-		        pedido.getItensPedido().stream().map(ip -> ItemPedidoDtoCadastroPedido.toDto(ip)).toList()
-		    );
+
+		return new PedidoDtoCadastroPedido(pedido.getId(), pedido.getDataPedido(), pedido.getDataEntrega(),
+				pedido.getDataEnvio(), pedido.isStatus(), pedido.getValorTotal(), pedido.getCliente().getId(),
+				pedido.getItensPedido().stream().map(ip -> ItemPedidoDtoCadastroPedido.toDto(ip)).toList());
 	}
 
 	public Long getId() {
-			return id;
-		}
+		return id;
+	}
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-		public LocalDate getDataPedido() {
-			return dataPedido;
-		}
+	public LocalDate getDataPedido() {
+		return dataPedido;
+	}
 
-		public void setDataPedido(LocalDate dataPedido) {
-			this.dataPedido = dataPedido;
-		}
+	public void setDataPedido(LocalDate dataPedido) {
+		this.dataPedido = dataPedido;
+	}
 
-		public LocalDate getDataEntrega() {
-			return dataEntrega;
-		}
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
 
-		public void setDataEntrega(LocalDate dataEntrega) {
-			this.dataEntrega = dataEntrega;
-		}
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
 
-		public LocalDate getDataEnvio() {
-			return dataEnvio;
-		}
+	public LocalDate getDataEnvio() {
+		return dataEnvio;
+	}
 
-		public void setDataEnvio(LocalDate dataEnvio) {
-			this.dataEnvio = dataEnvio;
-		}
+	public void setDataEnvio(LocalDate dataEnvio) {
+		this.dataEnvio = dataEnvio;
+	}
 
-		public boolean isStatus() {
-			return status;
-		}
+	public boolean isStatus() {
+		return status;
+	}
 
-		public void setStatus(boolean status) {
-			this.status = status;
-		}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
-		public Double getValorTotal() {
-			return valorTotal;
-		}
+	public Double getValorTotal() {
+		return valorTotal;
+	}
 
-		public void setValorTotal(Double valorTotal) {
-			this.valorTotal = valorTotal;
-		}
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
 
-		public Long getClienteId() {
-			return clienteId;
-		}
+	public Long getClienteId() {
+		return clienteId;
+	}
 
-		public void setClienteId(Long clienteId) {
-			this.clienteId = clienteId;
-		}
+	public void setClienteId(Long clienteId) {
+		this.clienteId = clienteId;
+	}
 
-		public List<ItemPedidoDtoCadastroPedido> getItensPedido() {
-			return itensPedido;
-		}
+	public List<ItemPedidoDtoCadastroPedido> getItensPedido() {
+		return itensPedido;
+	}
 
-		public void setItensPedido(List<ItemPedidoDtoCadastroPedido> itensPedido) {
-			this.itensPedido = itensPedido;
-		}
+	public void setItensPedido(List<ItemPedidoDtoCadastroPedido> itensPedido) {
+		this.itensPedido = itensPedido;
+	}
 }

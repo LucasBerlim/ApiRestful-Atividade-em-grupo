@@ -86,9 +86,17 @@ public class Produto {
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
-	
 	@Override
 	public String toString() {
-		return "Código produto =" + id + ", Nome Produto =" + nome;
+		return "Produto [id=" + id + ", nome=" + nome + ", qtdEstoque=" + qtdEstoque + ", dataCadastro=" + dataCadastro
+				+ ", valorUnitario=" + valorUnitario + ", imagem=" + imagem
+				+ ", categoria=" + categoria + "]";
 	}
+	
+	/*@Override
+	public String toString() {
+		return "Código produto =" + id + ", Nome Produto =" + nome;
+	}*/
+	
+	
 }

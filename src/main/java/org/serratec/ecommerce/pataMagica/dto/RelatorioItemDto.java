@@ -26,6 +26,7 @@ public class RelatorioItemDto {
     public ItemPedido toEntity(Pedido pedido) {
         Produto produto = new Produto();
         produto.setId(this.idProduto);
+        
 
         ItemPedido itemPedido = new ItemPedido();
         itemPedido.setProduto(produto);
@@ -97,4 +98,13 @@ public class RelatorioItemDto {
 	public void setValorLiquidoItem(Double valorLiquidoItem) {
 		this.valorLiquidoItem = valorLiquidoItem;
 	}
+
+	@Override
+	public String toString() {
+		return "RelatorioItemDto [idProduto=" + idProduto + ", nomeProduto=" + nomeProduto + ", precoUnitarioProduto="
+				+ precoUnitarioProduto + ", qtdeItem=" + qtdeItem + ", percentualDescontoItem=" + percentualDescontoItem
+				+ ", valorLiquidoItem=" + valorLiquidoItem + "]";
+	}
+	
+	
 }

@@ -5,18 +5,46 @@ import java.time.LocalDate;
 import org.serratec.ecommerce.pataMagica.model.Categoria;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
-public record ProdutoDto(
-		Long id,
-		String nome,
-		int qtdEstoque,
-		LocalDate dataCadastro,
-		Double valorUnitario,
-		String imagem,
-		Long categoriaId
+public class ProdutoDto {
+		private Long id;
+		private String nome;
+		private int qtdEstoque;
+		private LocalDate dataCadastro;
+		private Double valorUnitario;
+		private String imagem;
+		private Long categoriaId;
 		//CategoriaDto categoria
 		//List<ItemPedidoDto> itensPedido
-		) {
 	
+	public ProdutoDto() {
+		
+	}
+	
+	
+	
+	public ProdutoDto(Long id, String nome, int qtdEstoque, LocalDate dataCadastro, Double valorUnitario,
+				String imagem, Long categoriaId) {
+			super();
+			this.id = id;
+			this.nome = nome;
+			this.qtdEstoque = qtdEstoque;
+			this.dataCadastro = dataCadastro;
+			this.valorUnitario = valorUnitario;
+			this.imagem = imagem;
+			this.categoriaId = categoriaId;
+		}
+
+
+
+	@Override
+	public String toString() {
+		return "ProdutoDto [id=" + id + ", nome=" + nome + ", qtdEstoque=" + qtdEstoque + ", dataCadastro="
+				+ dataCadastro + ", valorUnitario=" + valorUnitario + ", imagem=" + imagem + ", categoriaId="
+				+ categoriaId + "]";
+	}
+
+
+
 	public Produto toEntity() {
 		Produto produto = new Produto();
 		produto.setId(this.id);
@@ -40,4 +68,62 @@ public record ProdutoDto(
         		//CategoriaDto.toDto(produto.getCategoria())
         		);
 	} // , produto.getItensPedido().stream().map(ip -> ItemPedidoDto.toDto(ip)).toList()
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public int getQtdEstoque() {
+		return qtdEstoque;
+	}
+
+	public void setQtdEstoque(int qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
+	}
+
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
+	}
+
+	public Double getValorUnitario() {
+		return valorUnitario;
+	}
+
+	public void setValorUnitario(Double valorUnitario) {
+		this.valorUnitario = valorUnitario;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
+
+	public Long getCategoriaId() {
+		return categoriaId;
+	}
+
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
+	}
+	
+	
 }

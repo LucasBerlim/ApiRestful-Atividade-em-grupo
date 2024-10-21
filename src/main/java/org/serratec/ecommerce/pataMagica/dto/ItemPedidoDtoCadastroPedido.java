@@ -1,11 +1,15 @@
 package org.serratec.ecommerce.pataMagica.dto;
 
-import javax.imageio.event.IIOWriteProgressListener;
-
 import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
+import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ItemPedidoDtoCadastroPedido {
+	
+	@Autowired
+	ProdutoRepository produtoRepository;
+	
 	private Long id;
 	private int quantidade;
 	private Double precoVenda;
@@ -31,18 +35,27 @@ public class ItemPedidoDtoCadastroPedido {
 	}
 	
 	public ItemPedido toEntity() {
+		Produto produto = new Produto();
+		produto.setId(this.produtoId);
+		
 		ItemPedido itemPedido = new ItemPedido();
 		itemPedido.setId(this.id);
+		itemPedido.setProduto(produto);
 		itemPedido.setQuantidade(this.quantidade);
 		itemPedido.setPrecoVenda(this.precoVenda);
 		itemPedido.setPercentualDesconto(this.percentualDesconto);
 		itemPedido.setValorBruto(this.valorBruto);
 		itemPedido.setValorLiquido(this.valorLiquido);
-		Produto produto = new Produto();
-		itemPedido.setProduto(produto);
-		itemPedido.getProduto().setId(this.produtoId);
 		
+		
+		/*produto = produtoRepository.findById(this.produtoId)
+	            .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+		produto.setNome(null);
 		itemPedido.setProduto(produto);
+        itemPedido.getProduto().setNome(produto.getNome()); // Setando o nome do produto
+        itemPedido.getProduto().setValorUnitario(produto.getValorUnitario()); // Setando o preço unitário
+        */
+        //itemPedido.setProduto(produto);
 		//itemPedido.getProduto().setNome(itemPedido); // não funciona!
 		return itemPedido;
 	}
