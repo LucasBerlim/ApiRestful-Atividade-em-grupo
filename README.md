@@ -70,7 +70,7 @@ Utilizamos uma combinação poderosa de tecnologias para garantir a melhor perfo
 ### Contato
 
 Em caso de dúvidas ou sugestões, entre em contato com um dos integrantes do projeto:
-- **Brenda Chaves Barbatti**: [LinkedIn](https://github.com/brendachavesb)
-- **Eduarda Pinho dos Santos**: [LinkedIn](https://github.com/EduardaPinh0)
-- **Lucas Branco Berlim da Cunha**: [LinkedIn](https://github.com/LucasBerlim)
-- **Michele Moreira da Silva**: [LinkedIn](https://github.com/eumichelems)
+- **Brenda Chaves Barbatti**: [LinkedIn](https://www.linkedin.com/in/brenda-chaves-barbatti-947a91168/)
+- **Eduarda Pinho dos Santos**: [LinkedIn](https://www.linkedin.com/in/eduarda-pinho-064b44330/)
+- **Lucas Branco Berlim da Cunha**: [LinkedIn](https://www.linkedin.com/in/lucas-berlim-705136265/)
+- **Michele Moreira da Silva**: [LinkedIn](https://www.linkedin.com/in/michelemoreira-s/)
