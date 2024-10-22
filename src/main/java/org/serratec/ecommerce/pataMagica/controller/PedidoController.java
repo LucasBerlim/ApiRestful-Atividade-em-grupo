@@ -120,6 +120,7 @@ public class PedidoController {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrado o relatório pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Relatório encontrado.")
 	})
+
     public ResponseEntity<RelatorioPedidoDto> gerarRelatorioPedido(@PathVariable Long id) {
         RelatorioPedidoDto relatorio = service.gerarRelatorioPedido(id);
         return ResponseEntity.ok(relatorio);
