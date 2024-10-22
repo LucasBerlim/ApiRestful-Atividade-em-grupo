@@ -17,52 +17,52 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repository;
-	
-	public List<ClienteDto> obterTodos(){
+
+	public List<ClienteDto> obterTodos() {
 		return repository.findAll().stream().map(c -> ClienteDto.toDto(c)).toList();
 	}
-	
-	public Optional<ClienteDto> obterPorId(Long id){
-		if(!repository.existsById(id)) {
+
+	public Optional<ClienteDto> obterPorId(Long id) {
+		if (!repository.existsById(id)) {
 			return Optional.empty();
 		}
 		return Optional.of(ClienteDto.toDto(repository.findById(id).get()));
 	}
-	
+
 	public ClienteDto aplicarApiCep(ClienteDto dto) {
 		String json = ConsumoApiCep.obterDados(dto.toEntity().getEndereco().getCep());
-        DadosCep dadosCep = new Gson().fromJson(json, DadosCep.class);
+		DadosCep dadosCep = new Gson().fromJson(json, DadosCep.class);
 
-        Endereco endereco = new Endereco();
-        endereco.setCep(dto.toEntity().getEndereco().getCep());
-        endereco.setRua(dadosCep.rua());
-        endereco.setBairro(dadosCep.bairro());
-        endereco.setCidade(dadosCep.cidade());
-        endereco.setUf(dadosCep.uf());
-        endereco.setNumero(dto.toEntity().getEndereco().getNumero());
-        endereco.setComplemento(dto.toEntity().getEndereco().getComplemento());
+		Endereco endereco = new Endereco();
+		endereco.setCep(dto.toEntity().getEndereco().getCep());
+		endereco.setRua(dadosCep.rua());
+		endereco.setBairro(dadosCep.bairro());
+		endereco.setCidade(dadosCep.cidade());
+		endereco.setUf(dadosCep.uf());
+		endereco.setNumero(dto.toEntity().getEndereco().getNumero());
+		endereco.setComplemento(dto.toEntity().getEndereco().getComplemento());
 
-        Cliente cliente = dto.toEntity();
-        cliente.setEndereco(endereco);
-        return ClienteDto.toDto(cliente);
+		Cliente cliente = dto.toEntity();
+		cliente.setEndereco(endereco);
+		return ClienteDto.toDto(cliente);
 	}
 
 	public ClienteDto salvarCliente(ClienteDto dto) {
 		ClienteDto cliente = aplicarApiCep(dto);
-        Cliente clienteEntity = repository.save(cliente.toEntity());
-        return ClienteDto.toDto(clienteEntity);
-    }
-	
+		Cliente clienteEntity = repository.save(cliente.toEntity());
+		return ClienteDto.toDto(clienteEntity);
+	}
+
 	public boolean apagarCliente(Long id) {
-		if(!repository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			return false;
 		}
 		repository.deleteById(id);
 		return true;
 	}
 
-	public Optional<ClienteDto> alterarCliente(Long id, ClienteDto dto){
-		if(!repository.existsById(id)) {
+	public Optional<ClienteDto> alterarCliente(Long id, ClienteDto dto) {
+		if (!repository.existsById(id)) {
 			return Optional.empty();
 		}
 		Cliente clienteEntity = aplicarApiCep(dto).toEntity();

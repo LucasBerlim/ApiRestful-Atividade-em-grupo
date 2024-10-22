@@ -6,46 +6,30 @@ import org.serratec.ecommerce.pataMagica.model.Categoria;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
 public class ProdutoDto {
-		private Long id;
-		private String nome;
-		private String descricao;
-		private int qtdEstoque;
-		private LocalDate dataCadastro;
-		private Double valorUnitario;
-		private String imagem;
-		private Long categoriaId;
-		//CategoriaDto categoria
-		//List<ItemPedidoDto> itensPedido
-	
+	private Long id;
+	private String nome;
+	private String descricao;
+	private int qtdEstoque;
+	private LocalDate dataCadastro;
+	private Double valorUnitario;
+	private String imagem;
+	private Long categoriaId;
+
 	public ProdutoDto() {
-		
-	}
-	
-	
-	
-	public ProdutoDto(Long id, String nome, String descricao, int qtdEstoque, LocalDate dataCadastro, Double valorUnitario,
-				String imagem, Long categoriaId) {
-			super();
-			this.id = id;
-			this.nome = nome;
-			this.descricao = descricao;
-			this.qtdEstoque = qtdEstoque;
-			this.dataCadastro = dataCadastro;
-			this.valorUnitario = valorUnitario;
-			this.imagem = imagem;
-			this.categoriaId = categoriaId;
-		}
-
-
-
-	@Override
-	public String toString() {
-		return "ProdutoDto [id=" + id + ", nome=" + nome + ", qtdEstoque=" + qtdEstoque + ", dataCadastro="
-				+ dataCadastro + ", valorUnitario=" + valorUnitario + ", imagem=" + imagem + ", categoriaId="
-				+ categoriaId + "]";
 	}
 
-
+	public ProdutoDto(Long id, String nome, String descricao, int qtdEstoque, LocalDate dataCadastro,
+			Double valorUnitario, String imagem, Long categoriaId) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.descricao = descricao;
+		this.qtdEstoque = qtdEstoque;
+		this.dataCadastro = dataCadastro;
+		this.valorUnitario = valorUnitario;
+		this.imagem = imagem;
+		this.categoriaId = categoriaId;
+	}
 
 	public Produto toEntity() {
 		Produto produto = new Produto();
@@ -59,26 +43,23 @@ public class ProdutoDto {
 		Categoria categoria = new Categoria();
 		produto.setCategoria(categoria);
 		produto.getCategoria().setId(this.categoriaId);
-		//produto.setCategoria(this.categoria.toEntity());
-		//produto.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return produto;
 	}
-	
-	public static ProdutoDto toDto(Produto produto) {
-        return new ProdutoDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getQtdEstoque(),
-        		produto.getDataCadastro(), produto.getValorUnitario(), produto.getImagem(),
-        		produto.getCategoria().getId()
-        		//CategoriaDto.toDto(produto.getCategoria())
-        		);
-	} // , produto.getItensPedido().stream().map(ip -> ItemPedidoDto.toDto(ip)).toList()
 
-	
+	public static ProdutoDto toDto(Produto produto) {
+		return new ProdutoDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getQtdEstoque(),
+				produto.getDataCadastro(), produto.getValorUnitario(), produto.getImagem(),
+				produto.getCategoria().getId());
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -134,6 +115,4 @@ public class ProdutoDto {
 	public void setCategoriaId(Long categoriaId) {
 		this.categoriaId = categoriaId;
 	}
-	
-	
 }

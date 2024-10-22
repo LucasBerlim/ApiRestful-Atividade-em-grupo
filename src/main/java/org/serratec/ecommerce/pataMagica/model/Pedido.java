@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Positive;
 @Table(name = "pedidos")
 public class Pedido {
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
 	@PastOrPresent
@@ -44,61 +44,69 @@ public class Pedido {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemPedido> itensPedido;
-	
-	
+
 	public List<ItemPedido> getItensPedido() {
 		return itensPedido;
 	}
+
 	public void setItensPedido(List<ItemPedido> itensPedido) {
 		itensPedido.forEach(ip -> ip.setPedido(this));
 		this.itensPedido = itensPedido;
 	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
+
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public boolean isStatus() {
 		return status;
 	}
+
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
 	public LocalDate getDataPedido() {
 		return dataPedido;
 	}
+
 	public void setDataPedido(LocalDate dataPedido) {
 		this.dataPedido = dataPedido;
 	}
+
 	public LocalDate getDataEntrega() {
 		return dataEntrega;
 	}
+
 	public void setDataEntrega(LocalDate dataEntrega) {
 		this.dataEntrega = dataEntrega;
 	}
+
 	public LocalDate getDataEnvio() {
 		return dataEnvio;
 	}
+
 	public void setDataEnvio(LocalDate dataEnvio) {
 		this.dataEnvio = dataEnvio;
 	}
+
 	public Double getValorTotal() {
 		return valorTotal;
 	}
+
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
-	}
-	@Override
-	public String toString() {
-		return "Código do pedido =" + id + ", dataPedido =" + dataPedido
-				+ "valorTotal=" + valorTotal
-				+ ", itensPedido=" + itensPedido.toString() + "]";
 	}
 }

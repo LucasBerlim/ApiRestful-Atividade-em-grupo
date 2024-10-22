@@ -10,36 +10,36 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoriaService {
-	
+
 	@Autowired
 	private CategoriaRepository repository;
-	
-	public List<CategoriaDto> obterTodos(){
+
+	public List<CategoriaDto> obterTodos() {
 		return repository.findAll().stream().map(c -> CategoriaDto.toDto(c)).toList();
 	}
-	
-	public Optional<CategoriaDto> obterPorId(Long id){
-		if(!repository.existsById(id)) {
+
+	public Optional<CategoriaDto> obterPorId(Long id) {
+		if (!repository.existsById(id)) {
 			return Optional.empty();
 		}
 		return Optional.of(CategoriaDto.toDto(repository.findById(id).get()));
 	}
-	
+
 	public CategoriaDto salvarCategoria(CategoriaDto dto) {
 		Categoria produtoEntity = repository.save(dto.toEntity());
 		return CategoriaDto.toDto(produtoEntity);
 	}
-	
+
 	public boolean apagarCategoria(Long id) {
-		if(!repository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			return false;
 		}
 		repository.deleteById(id);
 		return true;
 	}
-	
-	public Optional<CategoriaDto> alterarCategoria(Long id, CategoriaDto dto){
-		if(!repository.existsById(id)) {
+
+	public Optional<CategoriaDto> alterarCategoria(Long id, CategoriaDto dto) {
+		if (!repository.existsById(id)) {
 			return Optional.empty();
 		}
 		Categoria categoriaEntity = dto.toEntity();

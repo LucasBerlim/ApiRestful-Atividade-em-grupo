@@ -14,33 +14,33 @@ public class ProdutoService {
 
 	@Autowired
 	private ProdutoRepository repository;
-	
-	public List<ProdutoDto> obterTodos(){
+
+	public List<ProdutoDto> obterTodos() {
 		return repository.findAll().stream().map(p -> ProdutoDto.toDto(p)).toList();
 	}
-	
-	public Optional<ProdutoDto> obterPorId(Long id){
-		if(!repository.existsById(id)) {
+
+	public Optional<ProdutoDto> obterPorId(Long id) {
+		if (!repository.existsById(id)) {
 			return Optional.empty();
 		}
 		return Optional.of(ProdutoDto.toDto(repository.findById(id).get()));
 	}
-	
+
 	public ProdutoDto salvarProduto(ProdutoDto dto) {
 		Produto produtoEntity = repository.save(dto.toEntity());
 		return ProdutoDto.toDto(produtoEntity);
 	}
-	
+
 	public boolean apagarProduto(Long id) {
-		if(!repository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			return false;
 		}
 		repository.deleteById(id);
 		return true;
 	}
-	
-	public Optional<ProdutoDto> alterarProduto(Long id, ProdutoDto dto){
-		if(!repository.existsById(id)) {
+
+	public Optional<ProdutoDto> alterarProduto(Long id, ProdutoDto dto) {
+		if (!repository.existsById(id)) {
 			return Optional.empty();
 		}
 		Produto produtoEntity = dto.toEntity();

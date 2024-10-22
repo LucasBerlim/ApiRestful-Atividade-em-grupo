@@ -85,10 +85,4 @@ public class ItemPedido {
 	public void setValorLiquido(Double valorLiquido) {
 		this.valorLiquido = valorLiquido;
 	}
-	@Override
-	public String toString() {
-		return "ItemPedido [código = " + id + ", quantidade = " + quantidade + ", precoVenda =" + precoVenda
-				+ ", percentualDesconto =" + percentualDesconto + ", valorLiquido ="
-				+ valorLiquido + ",\n produto=" + produto.toString();
-	}
 }
