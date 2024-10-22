@@ -6,8 +6,10 @@ import org.serratec.ecommerce.pataMagica.dto.ClienteDto;
 import org.serratec.ecommerce.pataMagica.model.Cliente;
 import org.serratec.ecommerce.pataMagica.model.DadosCep;
 import org.serratec.ecommerce.pataMagica.model.Endereco;
+import org.serratec.ecommerce.pataMagica.model.ErrorResponse;
 import org.serratec.ecommerce.pataMagica.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
@@ -47,11 +49,36 @@ public class ClienteService {
 		return ClienteDto.toDto(cliente);
 	}
 
-	public ClienteDto salvarCliente(ClienteDto dto) {
+	/*public ResponseEntity<ClienteDto> salvarCliente(ClienteDto dto) {
 		ClienteDto cliente = aplicarApiCep(dto);
+		
+		Cliente clienteCpf = repository.findByCpf(dto.cpf());
+		if(clienteCpf != null) {
+			return ResponseEntity.badRequest().build();
+		}
+		
 		Cliente clienteEntity = repository.save(cliente.toEntity());
-		return ClienteDto.toDto(clienteEntity);
+		return ResponseEntity.ok(ClienteDto.toDto(clienteEntity));
+	}*/
+	
+	public ResponseEntity<Object> salvarCliente(ClienteDto dto) {
+		ClienteDto cliente = aplicarApiCep(dto);
+		
+		
+		Cliente clienteCpf = repository.findByCpf(dto.cpf());
+		Cliente clienteEmail = repository.findByEmail(dto.email());
+		if(clienteEmail != null) {
+			return ResponseEntity.badRequest().body(new ErrorResponse("Email já cadastrado", 400));
+		}
+		if(clienteCpf != null) {
+			return ResponseEntity.badRequest().body(new ErrorResponse("CPF já cadastrado", 400));
+		}
+		
+		
+		Cliente clienteEntity = repository.save(cliente.toEntity());
+		return ResponseEntity.ok(ClienteDto.toDto(clienteEntity));
 	}
+
 
 	public boolean apagarCliente(Long id) {
 		if (!repository.existsById(id)) {

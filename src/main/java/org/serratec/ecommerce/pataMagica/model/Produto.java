@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +35,7 @@ public class Produto {
 	private String nome;
 	@NotBlank(message = "A descrição é obrigatória")
 	@Size(min = 2, max = 255, message = "A descrição deve ter entre 2 e 255 caracteres")
+	@Column(unique = true)
 	private String descricao;
 	@PositiveOrZero
 	private int qtdEstoque;

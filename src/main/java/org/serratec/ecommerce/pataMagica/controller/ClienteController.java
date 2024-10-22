@@ -50,10 +50,14 @@ public class ClienteController {
 
 	@PostMapping
 	@Operation(summary = "Cadastra um novo cliente", description = "Criar um novo cliente e retornar os detalhes do cliente criado")
-	@ApiResponses(value = { @ApiResponse(responseCode = "400", description = "Formato incorreto. Verifique!"),
-			@ApiResponse(responseCode = "201", description = "Cliente localizado.") })
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "400", description = "Formato incorreto. Verifique!"),
+			@ApiResponse(responseCode = "201", description = "Cliente localizado.")
+	})
 	@ResponseStatus(HttpStatus.CREATED)
-	public ClienteDto cadastrarCliente(@RequestBody ClienteDto dto) {
+	public ResponseEntity<Object> cadastrarCliente(@RequestBody ClienteDto dto) {
+		//ClienteDto clienteDto = service.salvarCliente(dto);
+		
 		return service.salvarCliente(dto);
 	}
 

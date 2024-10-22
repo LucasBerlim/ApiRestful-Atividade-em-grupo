@@ -60,7 +60,9 @@ public class SecurityConfig {
 		.requestMatchers(HttpMethod.GET, "**").permitAll()
 		.requestMatchers(HttpMethod.PUT, "**").permitAll()
 		.requestMatchers(HttpMethod.POST, "**").permitAll()
-		.requestMatchers(HttpMethod.POST, "**").hasRole("ADM"))
+		//.requestMatchers(HttpMethod.POST, "**").hasRole("ADM")
+		//.requestMatchers(HttpMethod.DELETE, "**").hasRole("ADM")
+		.requestMatchers(HttpMethod.PUT, "**").hasRole("ADM"))
 		.csrf(csrf -> csrf.disable())
 		.httpBasic(Customizer.withDefaults());
 		

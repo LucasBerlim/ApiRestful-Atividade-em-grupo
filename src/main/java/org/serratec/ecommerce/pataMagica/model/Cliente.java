@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,12 +31,14 @@ public class Cliente {
 	private Long id;
 	@NotBlank
 	@Email(message = "Email deve ser válido")
+	@Column(unique = true)
 	private String email;
 	@NotBlank(message = "O nome é obrigatório")
 	@Size(min = 2, max = 255, message = "Nome deve ter entre 2 e 255 caracteres")
 	private String nomeCompleto;
 	@NotBlank(message = "Cpf é obrigatório")
 	@Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}|\\d{11}", message = "CPF inválido")
+	@Column(unique = true)
 	private String cpf;
 	@Pattern(regexp = "^(\\(?\\d{2}\\)?\\s?)?(\\d{4,5}[-\\s]?\\d{4})$", message = "O número de telefone deve ser válido.")
 	private String telefone;
