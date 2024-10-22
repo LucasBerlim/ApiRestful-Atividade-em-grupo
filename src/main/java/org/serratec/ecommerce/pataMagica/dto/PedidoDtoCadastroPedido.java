@@ -2,16 +2,15 @@ package org.serratec.ecommerce.pataMagica.dto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.serratec.ecommerce.pataMagica.model.Cliente;
+import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
-import org.serratec.ecommerce.pataMagica.service.ProdutoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
 
 public class PedidoDtoCadastroPedido {
-	@Autowired
-	ProdutoService produtoService;
 
 	private Long id;
 	private LocalDate dataPedido;
@@ -22,8 +21,7 @@ public class PedidoDtoCadastroPedido {
 	private Long clienteId;
 	private List<ItemPedidoDtoCadastroPedido> itensPedido;
 
-	public PedidoDtoCadastroPedido() {
-	}
+	public PedidoDtoCadastroPedido() {}
 
 	public PedidoDtoCadastroPedido(Long id, LocalDate dataPedido, LocalDate dataEntrega, LocalDate dataEnvio,
 			boolean status, Double valorTotal, Long clienteId, List<ItemPedidoDtoCadastroPedido> itensPedido) {
@@ -38,7 +36,7 @@ public class PedidoDtoCadastroPedido {
 		this.itensPedido = itensPedido;
 	}
 
-	public Pedido toEntity() {
+	/*public Pedido toEntity() {
 		Pedido pedido = new Pedido();
 		pedido.setId(this.id);
 		pedido.setDataPedido(this.dataPedido);
@@ -51,7 +49,34 @@ public class PedidoDtoCadastroPedido {
 		pedido.getCliente().setId(this.clienteId);
 		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
 		return pedido;
-	}
+	}*/
+	
+	public Pedido toEntity(ProdutoRepository produtoRepository) {
+        Pedido pedido = new Pedido();
+        pedido.setId(this.id);
+        pedido.setDataPedido(this.dataPedido);
+        pedido.setDataEntrega(this.dataEntrega);
+        pedido.setDataEnvio(this.dataEnvio);
+        pedido.setStatus(this.status);
+        pedido.setValorTotal(this.valorTotal);
+
+        Cliente cliente = new Cliente();
+        cliente.setId(this.clienteId);
+        pedido.setCliente(cliente);
+
+        List<ItemPedido> itens = this.itensPedido.stream().map(itemDto -> {
+            Produto produto = produtoRepository.findById(itemDto.getProdutoId())
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            
+            ItemPedido itemPedido = itemDto.toEntity();
+            itemPedido.setProduto(produto);
+            itemPedido.setPedido(pedido);
+            return itemPedido;
+        }).collect(Collectors.toList());
+
+        pedido.setItensPedido(itens);
+        return pedido;
+    }
 
 	public static PedidoDtoCadastroPedido toDto(Pedido pedido) {
 

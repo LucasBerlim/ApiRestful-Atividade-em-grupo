@@ -10,6 +10,7 @@ import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
 import org.serratec.ecommerce.pataMagica.dto.RelatorioPedidoDto;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
+import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class PedidoService {
 	private ProdutoService produtoService;
 	@Autowired
 	private EmailService emailService;
+	@Autowired ProdutoRepository produtoRepository;
 	
 	public List<PedidoDto> obterTodos(){
 		return repository.findAll().stream().map(p -> PedidoDto.toDto(p)).toList();
@@ -38,7 +40,7 @@ public class PedidoService {
 		double valorTotal = 0;
 		double valorBruto = 0;
 		double valorLiquido = 0;
-		Pedido pedido = dto.toEntity();
+		Pedido pedido = dto.toEntity(produtoRepository);
 		
 		int i = 0;
 		for (ItemPedidoDtoCadastroPedido ip : pedido.getItensPedido().stream().map(ip -> 
@@ -63,7 +65,7 @@ public class PedidoService {
 		return dto;
 	}
 	
-	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
+	/*public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
 		Pedido pedido = calcularPedido(dto).toEntity();
 		Pedido pedidoEntity = repository.save(pedido);
 		Long id = pedidoEntity.getId();
@@ -78,6 +80,28 @@ public class PedidoService {
 		System.out.println(dtoNovo.getId());
 		gerarRelatorioPedido(id, true);
 		return dtoNovo;
+	}*/
+	
+	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
+	    Pedido pedido = calcularPedido(dto).toEntity(produtoRepository);
+	    Pedido pedidoEntity = repository.save(pedido);
+
+	    // Buscar o pedido salvo novamente para garantir que todos os dados estão completos
+	    Pedido pedidoCompleto = repository.findById(pedidoEntity.getId())
+	        .orElseThrow(() -> new RuntimeException("Pedido não encontrado após salvar"));
+
+	    // Imprimir informações do pedido salvo
+	    System.out.println(pedidoCompleto.getItensPedido());
+
+	    PedidoDtoCadastroPedido dtoNovo = PedidoDtoCadastroPedido.toDto(pedidoCompleto);
+
+	    // Imprimir ID do novo DTO
+	    System.out.println(dtoNovo.getId());
+
+	    // Gerar e enviar o relatório por email
+	    gerarRelatorioPedido(pedidoCompleto.getId(), true);
+
+	    return dtoNovo;
 	}
 	
 	public boolean apagarPedido(Long id) {
@@ -92,7 +116,7 @@ public class PedidoService {
 		if(!repository.existsById(id)) {
 			return Optional.empty();
 		}
-		Pedido pedidoEntity = calcularPedido(dto).toEntity();
+		Pedido pedidoEntity = calcularPedido(dto).toEntity(produtoRepository);
 		pedidoEntity.setId(id);
 		repository.save(pedidoEntity);
 		return Optional.of(PedidoDtoCadastroPedido.toDto(pedidoEntity));

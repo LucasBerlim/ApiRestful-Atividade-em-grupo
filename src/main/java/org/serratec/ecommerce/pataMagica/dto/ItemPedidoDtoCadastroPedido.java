@@ -2,13 +2,8 @@ package org.serratec.ecommerce.pataMagica.dto;
 
 import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
-import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ItemPedidoDtoCadastroPedido {
-	
-	@Autowired
-	ProdutoRepository produtoRepository;
 	
 	private Long id;
 	private int quantidade;
@@ -18,9 +13,7 @@ public class ItemPedidoDtoCadastroPedido {
 	private Double valorLiquido;
 	private Long produtoId;
 
-	public ItemPedidoDtoCadastroPedido() {
-
-	}
+	public ItemPedidoDtoCadastroPedido() {}
 
 	public ItemPedidoDtoCadastroPedido(Long id, int quantidade, Double precoVenda, Double percentualDesconto,
 			Double valorBruto, Double valorLiquido, Long produtoId) {
@@ -46,17 +39,6 @@ public class ItemPedidoDtoCadastroPedido {
 		itemPedido.setPercentualDesconto(this.percentualDesconto);
 		itemPedido.setValorBruto(this.valorBruto);
 		itemPedido.setValorLiquido(this.valorLiquido);
-		
-		
-		/*produto = produtoRepository.findById(this.produtoId)
-	            .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-		produto.setNome(null);
-		itemPedido.setProduto(produto);
-        itemPedido.getProduto().setNome(produto.getNome()); // Setando o nome do produto
-        itemPedido.getProduto().setValorUnitario(produto.getValorUnitario()); // Setando o preço unitário
-        */
-        //itemPedido.setProduto(produto);
-		//itemPedido.getProduto().setNome(itemPedido); // não funciona!
 		return itemPedido;
 	}
 

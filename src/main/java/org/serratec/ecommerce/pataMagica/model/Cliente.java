@@ -3,8 +3,6 @@ package org.serratec.ecommerce.pataMagica.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.validator.constraints.br.CPF;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
