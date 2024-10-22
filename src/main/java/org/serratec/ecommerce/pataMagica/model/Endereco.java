@@ -8,6 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "enderecos")
@@ -15,11 +18,16 @@ public class Endereco {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Size(max = 8, message = "CEP deve conter exatamente 8 dígitos")
 	private String cep;
 	private String rua;
 	private String bairro;
 	private String cidade;
+	@NotBlank
+	@Size(max = 100, message = "Nome deve ter entre 2 e 100 caracteres")
 	private String numero;
+	@NotBlank
+	@Size(max = 255, message = "Nome deve ter entre 2 e 255 caracteres")
 	private String complemento;
 	private String uf;
 	@JsonBackReference

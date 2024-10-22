@@ -5,12 +5,15 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "categorias")
@@ -18,7 +21,12 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message = "O nome é obrigatório")
+	@Size(min = 2, max = 255, message = "Nome deve ter entre 2 e 255 caracteres")
 	private String nome;
+	@NotBlank(message = "A descrição é obrigatório")
+	@Size(min = 2, max = 255, message = "A descrição deve ter entre 2 e 255 caracteres")
+	@Column(unique = true)
 	private String descricao;
 	@JsonBackReference
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)

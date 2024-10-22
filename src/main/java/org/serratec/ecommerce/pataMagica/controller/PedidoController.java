@@ -55,7 +55,7 @@ public class PedidoController {
 	}
 	
 	@PostMapping
-	 @Operation(summary = "Cadastrar um novo pedido",
+	@Operation(summary = "Cadastrar um novo pedido",
 		        description = "Criar um novo pedido e retornar os detalhes do pedido criado")
 	@ApiResponse(responseCode = "200", description = "Pedido criado com sucesso")
 	@ResponseStatus(HttpStatus.CREATED)

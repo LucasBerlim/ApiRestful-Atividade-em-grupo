@@ -8,6 +8,7 @@ import org.serratec.ecommerce.pataMagica.model.Produto;
 public class ProdutoDto {
 		private Long id;
 		private String nome;
+		private String descricao;
 		private int qtdEstoque;
 		private LocalDate dataCadastro;
 		private Double valorUnitario;
@@ -22,11 +23,12 @@ public class ProdutoDto {
 	
 	
 	
-	public ProdutoDto(Long id, String nome, int qtdEstoque, LocalDate dataCadastro, Double valorUnitario,
+	public ProdutoDto(Long id, String nome, String descricao, int qtdEstoque, LocalDate dataCadastro, Double valorUnitario,
 				String imagem, Long categoriaId) {
 			super();
 			this.id = id;
 			this.nome = nome;
+			this.descricao = descricao;
 			this.qtdEstoque = qtdEstoque;
 			this.dataCadastro = dataCadastro;
 			this.valorUnitario = valorUnitario;
@@ -49,6 +51,7 @@ public class ProdutoDto {
 		Produto produto = new Produto();
 		produto.setId(this.id);
 		produto.setNome(this.nome);
+		produto.setDescricao(this.descricao);
 		produto.setQtdEstoque(this.qtdEstoque);
 		produto.setDataCadastro(this.dataCadastro);
 		produto.setValorUnitario(this.valorUnitario);
@@ -62,13 +65,20 @@ public class ProdutoDto {
 	}
 	
 	public static ProdutoDto toDto(Produto produto) {
-        return new ProdutoDto(produto.getId(), produto.getNome(), produto.getQtdEstoque(),
+        return new ProdutoDto(produto.getId(), produto.getNome(), produto.getDescricao(), produto.getQtdEstoque(),
         		produto.getDataCadastro(), produto.getValorUnitario(), produto.getImagem(),
         		produto.getCategoria().getId()
         		//CategoriaDto.toDto(produto.getCategoria())
         		);
 	} // , produto.getItensPedido().stream().map(ip -> ItemPedidoDto.toDto(ip)).toList()
 
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	public Long getId() {
 		return id;
 	}

@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "itens_pedido")
@@ -16,10 +18,15 @@ public class ItemPedido {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Positive
 	private int quantidade;
+	@Positive
 	private Double precoVenda;
+	@PositiveOrZero
 	private Double percentualDesconto;
+	@Positive
 	private Double valorBruto;
+	@Positive
 	private Double valorLiquido;
 	//@JsonBackReference
 	@JsonManagedReference

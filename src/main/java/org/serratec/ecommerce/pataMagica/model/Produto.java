@@ -15,6 +15,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "produtos")
@@ -23,10 +30,20 @@ public class Produto {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message = "O nome é obrigatório")
+	@Size(min = 2, max = 255, message = "Nome deve ter entre 2 e 255 caracteres")
 	private String nome;
+	@NotBlank(message = "A descrição é obrigatória")
+	@Size(min = 2, max = 255, message = "A descrição deve ter entre 2 e 255 caracteres")
+	private String descricao;
+	@PositiveOrZero
 	private int qtdEstoque;
+	@NotNull
+	@PastOrPresent
 	private LocalDate dataCadastro;
+	@Positive
 	private Double valorUnitario;
+	@NotBlank
 	private String imagem;
 	@JsonBackReference
 	//@JsonManagedReference
@@ -85,6 +102,12 @@ public class Produto {
 	}
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 	@Override
 	public String toString() {
