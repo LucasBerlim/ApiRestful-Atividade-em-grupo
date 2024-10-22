@@ -1,18 +1,24 @@
 package org.serratec.ecommerce.pataMagica.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sound.midi.Soundbank;
 
 import org.serratec.ecommerce.pataMagica.dto.ItemPedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
 import org.serratec.ecommerce.pataMagica.dto.RelatorioPedidoDto;
+import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
 import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jakarta.mail.MessagingException;
 
 @Service
 public class PedidoService {
@@ -50,9 +56,13 @@ public class PedidoService {
 				
 				ip.setValorBruto(produto.get().getValorUnitario() * ip.getQuantidade());
 			    valorBruto = ip.getValorBruto();
-				ip.setValorLiquido(ip.getValorBruto() - ip.getPercentualDesconto());
+			    double percentualDesconto = ip.getPercentualDesconto() / 100.0;
+			    double valorDesconto = valorBruto * percentualDesconto;
+				ip.setValorLiquido(ip.getValorBruto() - valorDesconto);
 				valorLiquido = ip.getValorLiquido();
 				valorTotal += valorLiquido;
+				
+			
 				
 				dto.getItensPedido().get(i).setValorBruto(valorBruto);
 				dto.getItensPedido().get(i).setValorLiquido(valorLiquido);
@@ -65,43 +75,24 @@ public class PedidoService {
 		return dto;
 	}
 	
-	/*public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
-		Pedido pedido = calcularPedido(dto).toEntity();
-		Pedido pedidoEntity = repository.save(pedido);
-		Long id = pedidoEntity.getId();
-		System.out.println(repository.findById(id).get().getItensPedido());
-		
-		
-		//ProdutoDto produtoDto = new ProdutoDto();
-		//pedidoEntity.getItensPedido().stream().map(ip -> ip.getProduto());
-		// pegar o email do cliente
-		 //fazer tostring na pedido entity
-		PedidoDtoCadastroPedido dtoNovo = PedidoDtoCadastroPedido.toDto(pedidoEntity);
-		System.out.println(dtoNovo.getId());
-		gerarRelatorioPedido(id, true);
-		return dtoNovo;
-	}*/
-	
 	public PedidoDtoCadastroPedido salvarPedido(PedidoDtoCadastroPedido dto) {
 	    Pedido pedido = calcularPedido(dto).toEntity(produtoRepository);
 	    Pedido pedidoEntity = repository.save(pedido);
 
-	    // Buscar o pedido salvo novamente para garantir que todos os dados estão completos
 	    Pedido pedidoCompleto = repository.findById(pedidoEntity.getId())
-	        .orElseThrow(() -> new RuntimeException("Pedido não encontrado após salvar"));
+	        .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-	    // Imprimir informações do pedido salvo
-	    System.out.println(pedidoCompleto.getItensPedido());
+	    enviarRelatorioPorEmail(pedidoCompleto);
+	    return PedidoDtoCadastroPedido.toDto(pedidoCompleto);
+	}
 
-	    PedidoDtoCadastroPedido dtoNovo = PedidoDtoCadastroPedido.toDto(pedidoCompleto);
-
-	    // Imprimir ID do novo DTO
-	    System.out.println(dtoNovo.getId());
-
-	    // Gerar e enviar o relatório por email
-	    gerarRelatorioPedido(pedidoCompleto.getId(), true);
-
-	    return dtoNovo;
+	private void enviarRelatorioPorEmail(Pedido pedidoCompleto) {
+	    RelatorioPedidoDto relatorio = RelatorioPedidoDto.toDto(pedidoCompleto);
+	    try {
+	        emailService.enviarRelatorioPedido(relatorio, "berlimtere@gmail.com");
+	    } catch (MessagingException e) {
+	        throw new RuntimeException("Erro ao enviar email", e);
+	    }
 	}
 	
 	public boolean apagarPedido(Long id) {
@@ -116,19 +107,24 @@ public class PedidoService {
 		if(!repository.existsById(id)) {
 			return Optional.empty();
 		}
-		Pedido pedidoEntity = calcularPedido(dto).toEntity(produtoRepository);
+		
+		//List<ItemPedidoDtoCadastroPedido> itens = dto.getItensPedido();
+		PedidoDtoCadastroPedido novoDto = dto;
+		
+		Pedido pedidoEntity = calcularPedido(novoDto).toEntity(produtoRepository);
 		pedidoEntity.setId(id);
 		repository.save(pedidoEntity);
 		return Optional.of(PedidoDtoCadastroPedido.toDto(pedidoEntity));
 	}
 	
-	public RelatorioPedidoDto gerarRelatorioPedido(Long id, boolean enviaEmail) {
+	public RelatorioPedidoDto gerarRelatorioPedido(Long id) {
         Pedido pedido = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         
-        if (enviaEmail) {
+        /*if (enviaEmail) {
         	emailService.enviarEmail("berlimtere@gmail.com", "Novo pedido", RelatorioPedidoDto.toDto(pedido).toString());
-		}
+        	//emailService.enviarRelatorioPedido(relatorio, "berlimtere@gmail.com");
+        }*/
         
         
         return RelatorioPedidoDto.toDto(pedido);

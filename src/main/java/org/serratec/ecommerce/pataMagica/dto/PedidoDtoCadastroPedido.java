@@ -35,21 +35,6 @@ public class PedidoDtoCadastroPedido {
 		this.clienteId = clienteId;
 		this.itensPedido = itensPedido;
 	}
-
-	/*public Pedido toEntity() {
-		Pedido pedido = new Pedido();
-		pedido.setId(this.id);
-		pedido.setDataPedido(this.dataPedido);
-		pedido.setDataEntrega(this.dataEntrega);
-		pedido.setDataEnvio(this.dataEnvio);
-		pedido.setStatus(this.status);
-		pedido.setValorTotal(this.valorTotal);
-		Cliente cliente = new Cliente();
-		pedido.setCliente(cliente);
-		pedido.getCliente().setId(this.clienteId);
-		pedido.setItensPedido(this.itensPedido.stream().map(ip -> ip.toEntity()).toList());
-		return pedido;
-	}*/
 	
 	public Pedido toEntity(ProdutoRepository produtoRepository) {
         Pedido pedido = new Pedido();
