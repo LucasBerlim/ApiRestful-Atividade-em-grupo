@@ -48,18 +48,6 @@ public class ClienteService {
 		cliente.setEndereco(endereco);
 		return ClienteDto.toDto(cliente);
 	}
-
-	/*public ResponseEntity<ClienteDto> salvarCliente(ClienteDto dto) {
-		ClienteDto cliente = aplicarApiCep(dto);
-		
-		Cliente clienteCpf = repository.findByCpf(dto.cpf());
-		if(clienteCpf != null) {
-			return ResponseEntity.badRequest().build();
-		}
-		
-		Cliente clienteEntity = repository.save(cliente.toEntity());
-		return ResponseEntity.ok(ClienteDto.toDto(clienteEntity));
-	}*/
 	
 	public ResponseEntity<Object> salvarCliente(ClienteDto dto) {
 		ClienteDto cliente = aplicarApiCep(dto);

@@ -55,7 +55,7 @@ public class ProdutoController {
 			@ApiResponse(responseCode = "400", description = "Não foi encontrado o produto pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Produto localizado.") })
 	@ResponseStatus(HttpStatus.CREATED)
-	public ProdutoDto cadastrarProduto(@RequestBody ProdutoDto dto) {
+	public ResponseEntity<Object> cadastrarProduto(@RequestBody ProdutoDto dto) {
 		return service.salvarProduto(dto);
 	}
 

@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
+import org.serratec.ecommerce.pataMagica.model.ErrorResponse;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +27,15 @@ public class ProdutoService {
 		}
 		return Optional.of(ProdutoDto.toDto(repository.findById(id).get()));
 	}
-
-	public ProdutoDto salvarProduto(ProdutoDto dto) {
+	
+	public ResponseEntity<Object> salvarProduto(ProdutoDto dto) {
+		Produto produtoDescricao = repository.findByDescricao(dto.getDescricao());
+		if(produtoDescricao != null) {
+			return ResponseEntity.badRequest().body(new ErrorResponse("Descrição já cadastrada", 400));
+		}
+		
 		Produto produtoEntity = repository.save(dto.toEntity());
-		return ProdutoDto.toDto(produtoEntity);
+		return ResponseEntity.ok(ProdutoDto.toDto(produtoEntity));
 	}
 
 	public boolean apagarProduto(Long id) {
