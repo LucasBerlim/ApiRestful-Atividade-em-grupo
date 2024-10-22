@@ -13,10 +13,10 @@ Prepare-se para momentos de muita fofura e diversão! Afinal, sabemos que quem m
 Este projeto foi desenvolvido com entusiasmo e zelo pela equipe, sob a orientação da brilhante professora Jacqueline Oliveira. Nosso objetivo é criar uma plataforma robusta e moderna, onde cada pet encontre o que há de melhor e mais encantador.
 
 **Integrantes do Projeto**:
-- **Brenda Chaves Barbatti**
-- **Eduarda Pinho dos Santos**
-- **Lucas Branco Berlim da Cunha**
-- **Michele Moreira da Silva**
+- **Brenda Barbatti**
+- **Eduarda Pinho**
+- **Lucas Berlim**
+- **Michele Moreira**
 
 ### Tecnologias Utilizadas
 
@@ -70,7 +70,7 @@ Utilizamos uma combinação poderosa de tecnologias para garantir a melhor perfo
 ### Contato
 
 Em caso de dúvidas ou sugestões, entre em contato com um dos integrantes do projeto:
-- **Brenda Chaves Barbatti**: [LinkedIn](https://www.linkedin.com/in/brenda-chaves-barbatti-947a91168/)
-- **Eduarda Pinho dos Santos**: [LinkedIn](https://www.linkedin.com/in/eduarda-pinho-064b44330/)
-- **Lucas Branco Berlim da Cunha**: [LinkedIn](https://www.linkedin.com/in/lucas-berlim-705136265/)
-- **Michele Moreira da Silva**: [LinkedIn](https://www.linkedin.com/in/michelemoreira-s/)
+- **Brenda Barbatti**: [LinkedIn](https://www.linkedin.com/in/brenda-chaves-barbatti-947a91168/)
+- **Eduarda Pinho**: [LinkedIn](https://www.linkedin.com/in/eduarda-pinho-064b44330/)
+- **Lucas Berlim**: [LinkedIn](https://www.linkedin.com/in/lucas-berlim-705136265/)
+- **Michele Moreira**: [LinkedIn](https://www.linkedin.com/in/michelemoreira-s/)
