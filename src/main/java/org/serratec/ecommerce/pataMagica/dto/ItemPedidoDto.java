@@ -4,27 +4,28 @@ import org.serratec.ecommerce.pataMagica.model.ItemPedido;
 import org.serratec.ecommerce.pataMagica.model.Produto;
 
 public class ItemPedidoDto {
-		private Long id;
-		private int quantidade;
-		private Double precoVenda;
-		private Double percentualDesconto;
-		private Double valorBruto;
-		private Double valorLiquido;
-		private Produto produto;
-		
-		public ItemPedidoDto() {}
-		
+	private Long id;
+	private int quantidade;
+	private Double precoVenda;
+	private Double percentualDesconto;
+	private Double valorBruto;
+	private Double valorLiquido;
+	private Long produtoId;
+
+	public ItemPedidoDto() {
+	}
+
 	public ItemPedidoDto(Long id, int quantidade, Double precoVenda, Double percentualDesconto, Double valorBruto,
-				Double valorLiquido, Produto produto) {
-			super();
-			this.id = id;
-			this.quantidade = quantidade;
-			this.precoVenda = precoVenda;
-			this.percentualDesconto = percentualDesconto;
-			this.valorBruto = valorBruto;
-			this.valorLiquido = valorLiquido;
-			this.produto = produto;
-		}
+			Double valorLiquido, Long produtoId) {
+		super();
+		this.id = id;
+		this.quantidade = quantidade;
+		this.precoVenda = precoVenda;
+		this.percentualDesconto = percentualDesconto;
+		this.valorBruto = valorBruto;
+		this.valorLiquido = valorLiquido;
+		this.produtoId = produtoId;
+	}
 
 	public ItemPedido toEntity() {
 		ItemPedido itemPedido = new ItemPedido();
@@ -34,18 +35,18 @@ public class ItemPedidoDto {
 		itemPedido.setPercentualDesconto(this.percentualDesconto);
 		itemPedido.setValorBruto(this.valorBruto);
 		itemPedido.setValorLiquido(this.valorLiquido);
-		itemPedido.setProduto(this.produto);
+		Produto produto = new Produto();
+		itemPedido.setProduto(produto);
+		itemPedido.getProduto().setId(this.produtoId);
 		return itemPedido;
 	}
-	
+
 	public static ItemPedidoDto toDto(ItemPedido itemPedido) {
-        return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), 
-        		itemPedido.getPrecoVenda(), itemPedido.getPercentualDesconto(), 
-        		itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
-        		itemPedido.getProduto()
-        		);
+		return new ItemPedidoDto(itemPedido.getId(), itemPedido.getQuantidade(), itemPedido.getPrecoVenda(),
+				itemPedido.getPercentualDesconto(), itemPedido.getValorBruto(), itemPedido.getValorLiquido(),
+				itemPedido.getProduto().getId());
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -94,11 +95,11 @@ public class ItemPedidoDto {
 		this.valorLiquido = valorLiquido;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public Long getProdutoId() {
+		return produtoId;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setProdutoId(Long produtoId) {
+		this.produtoId = produtoId;
 	}
 }

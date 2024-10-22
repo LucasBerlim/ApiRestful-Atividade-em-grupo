@@ -15,6 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "pedidos")
@@ -22,10 +26,17 @@ public class Pedido {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
+	@PastOrPresent
 	private LocalDate dataPedido;
+	@NotNull
+	@Future
 	private LocalDate dataEntrega;
+	@NotNull
+	@Future
 	private LocalDate dataEnvio;
 	private boolean status;
+	@Positive
 	private Double valorTotal;
 	@JsonBackReference
 	@ManyToOne
@@ -83,5 +94,11 @@ public class Pedido {
 	}
 	public void setValorTotal(Double valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+	@Override
+	public String toString() {
+		return "Código do pedido =" + id + ", dataPedido =" + dataPedido
+				+ "valorTotal=" + valorTotal
+				+ ", itensPedido=" + itensPedido.toString() + "]";
 	}
 }

@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name = "itens_pedido")
@@ -16,12 +18,18 @@ public class ItemPedido {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Positive
 	private int quantidade;
+	@Positive
 	private Double precoVenda;
+	@PositiveOrZero
 	private Double percentualDesconto;
+	@Positive
 	private Double valorBruto;
+	@Positive
 	private Double valorLiquido;
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonManagedReference
 	@ManyToOne
 	private Produto produto;
 	@JsonBackReference
@@ -76,5 +84,11 @@ public class ItemPedido {
 	}
 	public void setValorLiquido(Double valorLiquido) {
 		this.valorLiquido = valorLiquido;
+	}
+	@Override
+	public String toString() {
+		return "ItemPedido [código = " + id + ", quantidade = " + quantidade + ", precoVenda =" + precoVenda
+				+ ", percentualDesconto =" + percentualDesconto + ", valorLiquido ="
+				+ valorLiquido + ",\n produto=" + produto.toString();
 	}
 }
