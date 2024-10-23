@@ -1,0 +1,1 @@
+ALTER TABLE produtos ADD CONSTRAINT unique_descricao UNIQUE (descricao);

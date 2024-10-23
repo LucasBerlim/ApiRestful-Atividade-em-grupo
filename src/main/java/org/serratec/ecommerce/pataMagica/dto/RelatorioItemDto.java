@@ -50,7 +50,6 @@ public class RelatorioItemDto {
         );
     }
 
-
 	public Long getIdProduto() {
 		return idProduto;
 	}
@@ -98,13 +97,4 @@ public class RelatorioItemDto {
 	public void setValorLiquidoItem(Double valorLiquidoItem) {
 		this.valorLiquidoItem = valorLiquidoItem;
 	}
-
-	@Override
-	public String toString() {
-		return "RelatorioItemDto [idProduto=" + idProduto + ", nomeProduto=" + nomeProduto + ", precoUnitarioProduto="
-				+ precoUnitarioProduto + ", qtdeItem=" + qtdeItem + ", percentualDescontoItem=" + percentualDescontoItem
-				+ ", valorLiquidoItem=" + valorLiquidoItem + "]";
-	}
-	
-	
 }
