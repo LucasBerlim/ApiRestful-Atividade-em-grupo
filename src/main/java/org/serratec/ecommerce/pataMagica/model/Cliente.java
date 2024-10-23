@@ -117,11 +117,4 @@ public class Cliente {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", email=" + email + ", nomeCompleto=" + nomeCompleto + ", cpf=" + cpf
-				+ ", telefone=" + telefone + ", dataNascimento=" + dataNascimento + ", endereco=" + endereco
-				+ ", pedidos=" + pedidos + "]";
-	}
 }

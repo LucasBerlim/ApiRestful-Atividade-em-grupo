@@ -10,29 +10,6 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
-/*@Service
-public class EmailService {
-	
-	@Autowired
-	private JavaMailSender sender;
-	
-	public String enviarEmail(String destinatario, String assunto, String mensagem) {
-		SimpleMailMessage enviaMensagem = new SimpleMailMessage();
-		
-		enviaMensagem.setFrom("exemplo@gmail.com");
-		enviaMensagem.setTo(destinatario);
-		enviaMensagem.setSubject(assunto);
-		enviaMensagem.setText(mensagem);
-		
-		try {
-			sender.send(enviaMensagem);
-			return "E-mail enviado com sucesso";
-		} catch (Exception e) {
-			return "Erro ao enviar mensagem. Verifique!";
-		}	
-	}
-}*/
-
 @Service
 public class EmailService {
 
@@ -55,7 +32,6 @@ public class EmailService {
         emailContent.append("<ul>");
 
         for (RelatorioItemDto item : relatorio.getItensPedido()) {
-            //RelatorioItemDto produto = item.get;
             emailContent.append("<li>"); 
             emailContent.append("<p><strong>ID do Produto:</strong> ").append(item.getIdProduto()).append("</p>");
             emailContent.append("<p><strong>Nome do Produto:</strong> ").append(item.getNomeProduto()).append("</p>");
@@ -65,7 +41,6 @@ public class EmailService {
             emailContent.append("<p><strong>Valor Líquido:</strong> ").append(item.getValorLiquidoItem()).append("</p>");
             emailContent.append("</li>");
         }
-
 
         emailContent.append("</ul>");
         helper.setText(emailContent.toString(), true);
