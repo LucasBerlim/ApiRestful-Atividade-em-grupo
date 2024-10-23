@@ -47,7 +47,6 @@ public class Produto {
 	@NotBlank
 	private String imagem;
 	@JsonBackReference
-	// @JsonManagedReference
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemPedido> itensPedido;
 	@JsonManagedReference

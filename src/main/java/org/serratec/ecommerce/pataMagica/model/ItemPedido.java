@@ -28,7 +28,6 @@ public class ItemPedido {
 	private Double valorBruto;
 	@Positive
 	private Double valorLiquido;
-	//@JsonBackReference
 	@JsonManagedReference
 	@ManyToOne
 	private Produto produto;
