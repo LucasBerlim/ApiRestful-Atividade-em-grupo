@@ -8,7 +8,9 @@ import org.serratec.ecommerce.pataMagica.dto.PedidoDto;
 import org.serratec.ecommerce.pataMagica.dto.PedidoDtoCadastroPedido;
 import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
 import org.serratec.ecommerce.pataMagica.dto.RelatorioPedidoDto;
+import org.serratec.ecommerce.pataMagica.model.Cliente;
 import org.serratec.ecommerce.pataMagica.model.Pedido;
+import org.serratec.ecommerce.pataMagica.repository.ClienteRepository;
 import org.serratec.ecommerce.pataMagica.repository.ItemPedidoRepository;
 import org.serratec.ecommerce.pataMagica.repository.PedidoRepository;
 import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
@@ -30,6 +32,8 @@ public class PedidoService {
 	private ProdutoRepository produtoRepository;
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	public List<PedidoDto> obterTodos() {
 		return repository.findAll().stream().map(p -> PedidoDto.toDto(p)).toList();
@@ -79,15 +83,20 @@ public class PedidoService {
 
 		Pedido pedidoCompleto = repository.findById(pedidoEntity.getId())
 				.orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
-
-		enviarRelatorioPorEmail(pedidoCompleto);
+		
+		Long clienteId = dto.getClienteId();
+		Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+		String email = cliente.get().getEmail();
+		
+		enviarRelatorioPorEmail(pedidoCompleto, email);
 		return PedidoDtoCadastroPedido.toDto(pedidoCompleto);
 	}
 
-	private void enviarRelatorioPorEmail(Pedido pedidoCompleto) {
+	private void enviarRelatorioPorEmail(Pedido pedidoCompleto, String email) {
 		RelatorioPedidoDto relatorio = RelatorioPedidoDto.toDto(pedidoCompleto);
+		
 		try {
-			emailService.enviarRelatorioPedido(relatorio, "berlimtere@gmail.com");
+			emailService.enviarRelatorioPedido(relatorio, email);
 		} catch (MessagingException e) {
 			throw new RuntimeException("Erro ao enviar email", e);
 		}

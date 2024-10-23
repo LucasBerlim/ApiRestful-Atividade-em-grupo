@@ -49,7 +49,6 @@ public class Cliente {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 	@JsonManagedReference
-	// @JsonIgnoreProperties
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Pedido> pedidos;
 
