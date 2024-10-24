@@ -22,7 +22,7 @@ public class SecurityConfig {
 		
 		http.authorizeHttpRequests(authorize -> authorize
 		.requestMatchers(HttpMethod.GET, "**").permitAll()
-		.requestMatchers(HttpMethod.PUT, "**").permitAll()
+		//.requestMatchers(HttpMethod.PUT, "**").permitAll()
 		//.requestMatchers(HttpMethod.POST, "**").permitAll()
 		.requestMatchers(HttpMethod.POST, "**").hasRole("ADM")
 		.requestMatchers(HttpMethod.DELETE, "**").hasRole("ADM")

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -55,7 +56,7 @@ public class PedidoController {
 	@Operation(summary = "Cadastrar um novo pedido", description = "Criar um novo pedido e retornar os detalhes do pedido criado")
 	@ApiResponse(responseCode = "200", description = "Pedido criado com sucesso")
 	@ResponseStatus(HttpStatus.CREATED)
-	public PedidoDtoCadastroPedido cadastrarPedido(@RequestBody PedidoDtoCadastroPedido dto) {
+	public PedidoDtoCadastroPedido cadastrarPedido(@RequestBody @Valid PedidoDtoCadastroPedido dto) {
 		return service.salvarPedido(dto);
 	}
 
@@ -78,7 +79,7 @@ public class PedidoController {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrado o pedido pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Pedido alterado.") })
 	public ResponseEntity<PedidoDtoCadastroPedido> alterarPedido(@PathVariable Long id,
-			@RequestBody PedidoDtoCadastroPedido dto) {
+			@RequestBody @Valid PedidoDtoCadastroPedido dto) {
 		Optional<PedidoDtoCadastroPedido> pedidoAlterado = service.alterarPedido(id, dto);
 		if (!pedidoAlterado.isPresent()) {
 			return ResponseEntity.notFound().build();

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/produtos")
@@ -55,7 +56,7 @@ public class ProdutoController {
 			@ApiResponse(responseCode = "400", description = "Não foi encontrado o produto pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Produto localizado.") })
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Object> cadastrarProduto(@RequestBody ProdutoDto dto) {
+	public ResponseEntity<Object> cadastrarProduto(@RequestBody @Valid ProdutoDto dto) {
 		return service.salvarProduto(dto);
 	}
 
@@ -76,7 +77,7 @@ public class ProdutoController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrado o produto pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Produto alterado") })
-	public ResponseEntity<ProdutoDto> alterarProduto(@PathVariable Long id, @RequestBody ProdutoDto dto) {
+	public ResponseEntity<ProdutoDto> alterarProduto(@PathVariable Long id, @RequestBody @Valid ProdutoDto dto) {
 		Optional<ProdutoDto> produtoAlterado = service.alterarProduto(id, dto);
 		if (!produtoAlterado.isPresent()) {
 			return ResponseEntity.notFound().build();
