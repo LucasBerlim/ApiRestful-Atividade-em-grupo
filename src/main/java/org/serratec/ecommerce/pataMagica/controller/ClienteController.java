@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/clientes")
@@ -55,7 +56,7 @@ public class ClienteController {
 			@ApiResponse(responseCode = "201", description = "Cliente localizado.")
 	})
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Object> cadastrarCliente(@RequestBody ClienteDto dto) {
+	public ResponseEntity<Object> cadastrarCliente(@RequestBody @Valid ClienteDto dto) {
 		//ClienteDto clienteDto = service.salvarCliente(dto);
 		
 		return service.salvarCliente(dto);
@@ -78,7 +79,7 @@ public class ClienteController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrado o cliente pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Cliente alterado") })
-	public ResponseEntity<ClienteDto> alterarCliente(@PathVariable Long id, @RequestBody ClienteDto dto) {
+	public ResponseEntity<ClienteDto> alterarCliente(@PathVariable Long id, @RequestBody @Valid ClienteDto dto) {
 		Optional<ClienteDto> clienteAlterado = service.alterarCliente(id, dto);
 		if (!clienteAlterado.isPresent()) {
 			return ResponseEntity.notFound().build();

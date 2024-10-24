@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.serratec.ecommerce.pataMagica.dto.ProdutoDto;
+import org.serratec.ecommerce.pataMagica.model.Categoria;
 import org.serratec.ecommerce.pataMagica.model.ErrorResponse;
 import org.serratec.ecommerce.pataMagica.model.Produto;
+import org.serratec.ecommerce.pataMagica.repository.CategoriaRepository;
 import org.serratec.ecommerce.pataMagica.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class ProdutoService {
 
 	@Autowired
 	private ProdutoRepository repository;
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	public List<ProdutoDto> obterTodos() {
 		return repository.findAll().stream().map(p -> ProdutoDto.toDto(p)).toList();
@@ -47,12 +51,17 @@ public class ProdutoService {
 	}
 
 	public Optional<ProdutoDto> alterarProduto(Long id, ProdutoDto dto) {
-		if (!repository.existsById(id)) {
-			return Optional.empty();
-		}
-		Produto produtoEntity = dto.toEntity();
-		produtoEntity.setId(id);
-		repository.save(produtoEntity);
-		return Optional.of(ProdutoDto.toDto(produtoEntity));
+	    if (!repository.existsById(id)) {
+	        return Optional.empty();
+	    }
+	    Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
+	        .orElseThrow(() -> new RuntimeException("A categoria não foi encontrada"));
+
+	    Produto produtoEntity = dto.toEntity();
+	    produtoEntity.setId(id);
+	    produtoEntity.setCategoria(categoria);
+
+	    repository.save(produtoEntity);
+	    return Optional.of(ProdutoDto.toDto(produtoEntity));
 	}
 }

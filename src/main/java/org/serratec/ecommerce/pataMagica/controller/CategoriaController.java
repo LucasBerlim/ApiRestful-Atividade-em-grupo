@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/categorias")
@@ -54,7 +55,7 @@ public class CategoriaController {
 			@ApiResponse(responseCode = "400", description = "Não foi encontrada a categoria pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Categoria localizado.") })
 	@ResponseStatus(HttpStatus.CREATED)
-	public CategoriaDto cadastrarCategoria(@RequestBody CategoriaDto dto) {
+	public CategoriaDto cadastrarCategoria(@RequestBody @Valid CategoriaDto dto) {
 		return service.salvarCategoria(dto);
 	}
 
@@ -75,7 +76,7 @@ public class CategoriaController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "404", description = "Não foi encontrada a categoria pelo id informado. Verifique!"),
 			@ApiResponse(responseCode = "200", description = "Categoria alterada") })
-	public ResponseEntity<CategoriaDto> alterarCategoria(@PathVariable Long id, @RequestBody CategoriaDto dto) {
+	public ResponseEntity<CategoriaDto> alterarCategoria(@PathVariable Long id, @RequestBody @Valid CategoriaDto dto) {
 		Optional<CategoriaDto> categoriaAlterado = service.alterarCategoria(id, dto);
 		if (!categoriaAlterado.isPresent()) {
 			return ResponseEntity.notFound().build();
